@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up/Login - भारत सरकार | Government of India - Educational Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #fff5f5 0%, #f0f8ff 100%);
+            min-height: 100vh;
+            color: #334155;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        /* Government Header */
+        .gov-header-stripe {
+            background: linear-gradient(90deg, #f97316 0%, #ffffff 50%, #22c55e 100%);
+            padding: 1px 0;
+        }
+
+        .gov-header {
+            background: #1e293b;
+            color: white;
+            padding: 16px 0;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .flag-circle {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(45deg, #f97316 0%, #ffffff 50%, #22c55e 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .header-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .header-subtitle {
+            font-size: 14px;
+            color: #cbd5e1;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 32px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 120px);
+        }
+
+        /* Card */
+        .auth-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 100%;
+            max-width: 500px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .card-header {
+            background: linear-gradient(90deg, #f97316 0%, #ea580c 100%);
+            color: white;
+            padding: 0;
+        }
+
+        .nav-tabs {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            border: none;
+        }
+
+        .nav-item {
+            flex: 1;
+        }
+
+        .nav-link {
+            display: block;
+            padding: 16px 24px;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            transition: all 0.3s ease;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .nav-link.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border-bottom: 3px solid white;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .card-body {
+            padding: 32px;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            min-height: 400px;
+        }
+
+        .tab-pane {
+            display: none;
+        }
+
+        .tab-pane.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f9fafb;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #f97316;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+        }
+
+        .form-control:required:invalid {
+            border-color: #ef4444;
+        }
+
+        /* Checkbox Styles */
+        .interests-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .form-check {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            border-radius: 6px;
+            transition: background-color 0.2s ease;
+        }
+
+        .form-check:hover {
+            background: #f3f4f6;
+        }
+
+        .form-check-input {
+            width: 18px;
+            height: 18px;
+            accent-color: #f97316;
+        }
+
+        .form-check-label {
+            font-size: 14px;
+            color: #374151;
+            cursor: pointer;
+        }
+
+        /* Button Styles */
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #ea580c 0%, #dc2626 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(249, 115, 22, 0.3);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(34, 197, 94, 0.3);
+        }
+
+        .w-100 {
+            width: 100%;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-dialog {
+            background: white;
+            border-radius: 12px;
+            max-width: 400px;
+            width: 90%;
+            max-height: 90vh;
+            overflow: hidden;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from { transform: scale(0.7) translateY(-50px); }
+            to { transform: scale(1) translateY(0); }
+        }
+
+        .modal-header {
+            padding: 20px 24px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .btn-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #6b7280;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+
+        .btn-close:hover {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .modal-body {
+            padding: 20px 24px;
+        }
+
+        .modal-footer {
+            padding: 0 24px 20px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #4b5563;
+        }
+
+        /* Government Footer */
+        .gov-footer {
+            text-align: center;
+            padding: 20px 0;
+            border-top: 1px solid #e5e7eb;
+            margin-top: 32px;
+        }
+
+        .footer-text {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 16px 0;
+            }
+
+            .card-body {
+                padding: 24px;
+            }
+
+            .header-title {
+                font-size: 18px;
+            }
+
+            .interests-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Government Header -->
+    <div class="gov-header-stripe">
+        <div class="gov-header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="flag-circle">
+
+                    </div>
+                    <div>
+                    <h1 class="header-title">Smart शिक्षा</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="main-content">
+            <div class="auth-card">
+                <div class="card-header">
+                    <ul class="nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" onclick="showTab('signup')" href="#signup">पंजीकरण | Sign Up</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" onclick="showTab('login')" href="#login">लॉगिन | Login</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content">
+                        <!-- Sign Up Tab -->
+                        <div class="tab-pane active" id="signup">
+                            <form id="signupForm" action="/signup" method="POST">
+
+                                <div class="form-group">
+                                    <label class="form-label">नाम | Name *</label>
+                                    <input type="text" class="form-control" name="name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">ईमेल | Email *</label>
+                                    <input type="email" class="form-control" name="email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">पासवर्ड | Password *</label>
+                                    <input type="password" class="form-control" name="password" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">फोन | Phone</label>
+                                    <input type="tel" class="form-control" name="phone">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">आयु | Age</label>
+                                    <input type="number" class="form-control" name="age" min="5" max="100">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">लिंग | Gender</label>
+                                    <select class="form-control" name="gender">
+                                        <option value="">Select Gender</option>
+                                        <option value="male">Male | पुरुष</option>
+                                        <option value="female">Female | महिला</option>
+                                        <option value="other">Other | अन्य</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">कक्षा स्तर | Class Level *</label>
+                                    <select class="form-control" name="class" required>
+                                        <option value="">Select Level</option>
+                                        <option value="elementary">Elementary | प्राथमिक</option>
+                                        <option value="middle school">Middle School | मध्य विद्यालय</option>
+                                        <option value="high school">High School | उच्च विद्यालय</option>
+                                        <option value="college">College | महाविद्यालय</option>
+                                        <option value="graduate">Graduate | स्नातक</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">रुचियां | Interests</label>
+                                    <div class="interests-grid">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="interests" value="science">
+                                            <label class="form-check-label">Science | विज्ञान</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="interests" value="technology">
+                                            <label class="form-check-label">Technology | तकनीक</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="interests" value="mathematics">
+                                            <label class="form-check-label">Mathematics | गणित</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="interests" value="arts">
+                                            <label class="form-check-label">Arts | कला</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="interests" value="sports">
+                                            <label class="form-check-label">Sports | खेल</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="interests" value="music">
+                                            <label class="form-check-label">Music | संगीत</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100">पंजीकरण करें | Sign Up</button>
+                            </form>
+                        </div>
+
+                        <!-- Login Tab -->
+                        <div class="tab-pane" id="login">
+                            <form id="loginForm" action="/login" method="POST">
+
+                                <div class="form-group">
+                                    <label class="form-label">ईमेल | Email *</label>
+                                    <input type="email" class="form-control" name="email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">पासवर्ड | Password *</label>
+                                    <input type="password" class="form-control" name="password" required>
+                                </div>
+                                <button type="submit" class="btn btn-success w-100">लॉगिन करें | Login</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Government Footer -->
+        <div class="gov-footer">
+            <div class="footer-text">
+                सत्यमेव जयते | Truth Alone Triumphs | भारत सरकार | Government of India | Digital India Initiative
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="messageModal" class="modal">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h5 class="modal-title">संदेश | Message</h5>
+                <button type="button" class="btn-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="modalMessage"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeModal()">बंद करें | Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab functionality
+        function showTab(tabName) {
+            // Hide all tab panes
+            const tabPanes = document.querySelectorAll('.tab-pane');
+            tabPanes.forEach(pane => {
+                pane.classList.remove('active');
+            });
+
+            // Remove active class from all nav links
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+
+            // Show selected tab pane
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked nav link
+            event.target.classList.add('active');
+        }
+
+        // Sign up form submission
+        document.getElementById('signupForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const interests = Array.from(formData.getAll('interests'));
+            
+            const userData = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                password: formData.get('password'),
+                phone: formData.get('phone'),
+                age: formData.get('age'),
+                gender: formData.get('gender'),
+                class: formData.get('class'),
+                interests: interests
+            };
+            
+            try {
+                const response = await fetch('/save_user', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(userData)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showMessage('Registration successful! Please login.');
+                    showTab('login');
+                    this.reset();
+                } else {
+                    showMessage(result.error || 'Registration failed');
+                }
+            } catch (error) {
+                showMessage('Network error. Please try again.');
+            }
+        });
+
+        // Login form submission
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const loginData = {
+                email: formData.get('email'),
+                password: formData.get('password')
+            };
+            
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(loginData)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    window.location.href = '/home';
+                } else {
+                    showMessage(result.error || 'Login failed');
+                }
+            } catch (error) {
+                showMessage('Network error. Please try again.');
+            }
+        });
+
+        // Modal functions
+        function showMessage(message) {
+            document.getElementById('modalMessage').textContent = message;
+            document.getElementById('messageModal').classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('messageModal').classList.remove('show');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('messageModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Smart शिक्षा</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #fff5f5 0%, #f0f8ff 100%);
+            min-height: 100vh;
+            color: #334155;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        /* Government Header */
+        .gov-header-stripe {
+            background: linear-gradient(90deg, #f97316 0%, #ffffff 50%, #22c55e 100%);
+            padding: 1px 0;
+        }
+
+        .gov-header {
+            background: #1e293b;
+            color: white;
+            padding: 16px 0;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .flag-circle {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(45deg, #f97316 0%, #ffffff 50%, #22c55e 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .header-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        /* Navigation Bar */
+        .nav-bar {
+            margin-top: 12px;
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            background: #0f172a;
+            padding: 12px 0;
+            border-top: 1px solid #334155;
+        }
+
+        .nav-link {
+            flex: 1;
+            text-align: center;
+            color: #f1f5f9;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 8px 0;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .nav-link:hover {
+            background: #1e293b;
+            color: #f97316;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 32px 0;
+        }
+
+        /* Profile Header Card */
+        .profile-header-card {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            border-radius: 12px;
+            padding: 48px;
+            margin-bottom: 32px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-header-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.1) 0%, rgba(34, 197, 94, 0.1) 100%);
+            border-radius: 50%;
+            transform: translate(30%, -30%);
+        }
+
+        .profile-header-content {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 8px 24px rgba(249, 115, 22, 0.3);
+            border: 4px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .profile-info {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .profile-name {
+            font-size: 36px;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .profile-subtitle {
+            font-size: 16px;
+            color: #cbd5e1;
+            margin-bottom: 16px;
+        }
+
+        .profile-badges-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .profile-badge {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .profile-badge:hover {
+            background: rgba(249, 115, 22, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Section Headers */
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .section-divider {
+            width: 4px;
+            height: 32px;
+            background: linear-gradient(180deg, #f97316 0%, #22c55e 100%);
+            border-radius: 2px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1e293b;
+        }
+
+        /* Grid Layout */
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        /* Info Cards */
+        .info-card {
+            background: white;
+            border-radius: 12px;
+            padding: 28px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+            border-color: #fed7aa;
+        }
+
+        .card-header-custom {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+
+        .card-icon {
+            font-size: 28px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        /* Info Grid */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+        }
+
+        .info-item {
+            padding: 16px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: 8px;
+            border-left: 3px solid #f97316;
+            transition: all 0.3s ease;
+        }
+
+        .info-item:hover {
+            background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+            transform: translateX(4px);
+        }
+
+        .info-label {
+            font-size: 11px;
+            color: #64748b;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .info-value {
+            font-size: 15px;
+            color: #1e293b;
+            font-weight: 600;
+        }
+
+        /* Subject Performance */
+        .subject-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .subject-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            background: linear-gradient(90deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .subject-item:hover {
+            transform: translateX(8px);
+            background: linear-gradient(90deg, #fff7ed 0%, #fef3c7 100%);
+            border-color: #fb923c;
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.15);
+        }
+
+        .subject-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .subject-icon {
+            font-size: 24px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            border-radius: 8px;
+        }
+
+        .subject-name {
+            font-size: 15px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .subject-score {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .score-badge {
+            background: #22c55e;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 13px;
+            box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);
+        }
+
+        .score-badge.good {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+        }
+
+        .score-badge.average {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+
+        /* Achievement Badges */
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 16px;
+        }
+
+        .achievement-badge {
+            text-align: center;
+            padding: 20px 12px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .achievement-badge:hover {
+            transform: translateY(-8px) scale(1.05);
+            border-color: #f97316;
+            background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+            box-shadow: 0 8px 20px rgba(249, 115, 22, 0.2);
+        }
+
+        .achievement-icon {
+            font-size: 36px;
+            margin-bottom: 8px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        }
+
+        .achievement-name {
+            font-size: 11px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        /* Schemes & Scholarships */
+        .scheme-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .scheme-item {
+            padding: 20px;
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border-radius: 10px;
+            border-left: 4px solid #22c55e;
+            transition: all 0.3s ease;
+        }
+
+        .scheme-item:hover {
+            transform: translateX(8px);
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.15);
+        }
+
+        .scheme-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .scheme-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #166534;
+        }
+
+        .scheme-status {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            box-shadow: 0 2px 6px rgba(34, 197, 94, 0.3);
+        }
+
+        .scheme-description {
+            font-size: 13px;
+            color: #166534;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .scheme-deadline {
+            font-size: 12px;
+            color: #15803d;
+            font-weight: 600;
+        }
+
+        /* Updates Section */
+        .updates-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .update-item {
+            padding: 16px;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border-radius: 10px;
+            border-left: 4px solid #2563eb;
+            transition: all 0.3s ease;
+        }
+
+        .update-item:hover {
+            transform: translateX(8px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+        }
+
+        .update-date {
+            font-size: 11px;
+            color: #1e40af;
+            font-weight: 600;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .update-text {
+            font-size: 13px;
+            color: #1e3a8a;
+            line-height: 1.6;
+        }
+
+        /* Interests Tags */
+        .interests-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .interest-tag {
+            background: white;
+            border: 2px solid #e2e8f0;
+            color: #334155;
+            padding: 10px 18px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .interest-tag:hover {
+            background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+            color: white;
+            border-color: #f97316;
+            transform: translateY(-4px);
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 32px;
+            margin-bottom: 48px;
+        }
+
+        .btn-custom {
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary-custom {
+            background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+            color: white;
+        }
+
+        .btn-primary-custom:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(249, 115, 22, 0.3);
+        }
+
+        .btn-secondary-custom {
+            background: white;
+            color: #475569;
+            border: 2px solid #e2e8f0;
+        }
+
+        .btn-secondary-custom:hover {
+            background: #1e293b;
+            color: white;
+            border-color: #1e293b;
+            transform: translateY(-3px);
+        }
+
+        /* Full Width Cards */
+        .full-width-card {
+            grid-column: 1 / -1;
+        }
+
+        /* Government Footer */
+        .gov-footer {
+            margin-top: 32px;
+            padding: 24px 0;
+            text-align: center;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .footer-links {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            font-size: 14px;
+            color: #64748b;
+            flex-wrap: wrap;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-title {
+                font-size: 20px;
+            }
+
+            .profile-header-card {
+                padding: 32px 24px;
+            }
+
+            .profile-header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .profile-name {
+                font-size: 28px;
+            }
+
+            .profile-info {
+                min-width: 100%;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .achievements-grid {
+                grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+            }
+
+            .section-title {
+                font-size: 20px;
+            }
+
+            .nav-bar {
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .nav-link {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Government Header -->
+    <div class="gov-header-stripe">
+        <div class="gov-header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="flag-circle">
+                        <span style="color: #000000; font-weight: bold;">SS</span>
+                    </div>
+                    <div>
+                        <h1 class="header-title">Smart शिक्षा</h1>
+                    </div>
+                </div>
+                <div class="nav-bar">
+                    <a href="{{ url_for('home') }}" class="nav-link">HOME</a>
+                    <a href="{{ url_for('counselling') }}" class="nav-link">COUNSELLING</a>
+                    <a href="{{ url_for('profile') }}" class="nav-link">PROFILE</a>
+                    <a href="{{ url_for('coding_practice') }}" class="nav-link">CODING</a>
+                    <a href="{{ url_for('logout') }}" class="nav-link">LOGOUT</a>
+                    <a href="{{ url_for('leaderboard') }}" class="nav-link">LEADERBOARD</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="main-content">
+            <!-- Profile Header -->
+            <div class="profile-header-card">
+                <div class="profile-header-content">
+                    <div class="profile-avatar">
+                        {{ name[0] if name else 'U' }}
+                    </div>
+                    <div class="profile-info">
+                        <h1 class="profile-name">{{ name or 'User Name' }}</h1>
+                        <p class="profile-subtitle">Class {{ user_class or '10' }} Student | Digital India Scholar</p>
+                        <div class="profile-badges-row">
+                            <span class="profile-badge">
+                                🎓 Active Learner
+                            </span>
+                            <span class="profile-badge">
+                                ✅ Verified Student
+                            </span>
+                            <span class="profile-badge">
+                                🏆 Top Performer
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Personal Information Section -->
+            <div class="section-header">
+                <div class="section-divider"></div>
+                <h2 class="section-title">👤 Personal Information | व्यक्तिगत जानकारी</h2>
+            </div>
+
+            <div class="profile-grid">
+                <div class="info-card">
+                    <div class="card-header-custom">
+                        <span class="card-icon">📋</span>
+                        <h3 class="card-title">Basic Details</h3>
+                    </div>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">Full Name</div>
+                            <div class="info-value">{{ name or 'Not provided' }}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Age</div>
+                            <div class="info-value">{{ age or 'Not provided' }}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Gender</div>
+                            <div class="info-value">{{ gender or 'Not provided' }}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Contact</div>
+                            <div class="info-value">{{ contact or 'Not provided' }}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Class Level</div>
+                            <div class="info-value">Class {{ user_class or 'Not provided' }}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Student ID</div>
+                            <div class="info-value">SS{{ (name[:3] if name else 'XXX') | upper }}2024</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <div class="card-header-custom">
+                        <span class="card-icon">📊</span>
+                        <h3 class="card-title">Subject Performance</h3>
+                    </div>
+                    <div class="subject-list">
+                        <div class="subject-item">
+                            <div class="subject-info">
+                                <span class="subject-icon">🔢</span>
+                                <span class="subject-name">Mathematics</span>
+                            </div>
+                            <div class="subject-score">
+                                <span class="score-badge good">92%</span>
+                                <span>🌟</span>
+                            </div>
+                        </div>
+                        <div class="subject-item">
+                            <div class="subject-info">
+                                <span class="subject-icon">🔬</span>
+                                <span class="subject-name">Science</span>
+                            </div>
+                            <div class="subject-score">
+                                <span class="score-badge good">88%</span>
+                                <span>🌟</span>
+                            </div>
+                        </div>
+                        <div class="subject-item">
+                            <div class="subject-info">
+                                <span class="subject-icon">📖</span>
+                                <span class="subject-name">English</span>
+                            </div>
+                            <div class="subject-score">
+                                <span class="score-badge average">78%</span>
+                            </div>
+                        </div>
+                        <div class="subject-item">
+                            <div class="subject-info">
+                                <span class="subject-icon">🌍</span>
+                                <span class="subject-name">Social Studies</span>
+                            </div>
+                            <div class="subject-score">
+                                <span class="score-badge good">85%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Achievement Badges Section -->
+            <div class="section-header">
+                <div class="section-divider"></div>
+                <h2 class="section-title">🏅 Achievement Badges | उपलब्धि बैज</h2>
+            </div>
+
+            <div class="profile-grid">
+                <div class="info-card full-width-card">
+                    <div class="achievements-grid">
+                        <div class="achievement-badge">
+                            <div class="achievement-icon">🥇</div>
+                            <div class="achievement-name">Top Scorer</div>
+                        </div>
+                        <div class="achievement-badge">
+                            <div class="achievement-icon">📚</div>
+                            <div class="achievement-name">Bookworm</div>
+                        </div>
+                        <div class="achievement-badge">
+                            <div class="achievement-icon">🎯</div>
+                            <div class="achievement-name">Goal Achiever</div>
+                        </div>
+                        <div class="achievement-badge">
+                            <div class="achievement-icon">💡</div>
+                            <div class="achievement-name">Quick Learner</div>
+                        </div>
+                        <div class="achievement-badge">
+                            <div class="achievement-icon">🌟</div>
+                            <div class="achievement-name">Star Student</div>
+                        </div>
+                        <div class="achievement-badge">
+                            <div class="achievement-icon">🔥</div>
+                            <div class="achievement-name">7 Day Streak</div>
+                        </div>
+                        <div class="achievement-badge">
+                            <div class="achievement-icon">💻</div>
+                            <div class="achievement-name">Tech Savvy</div>
+                        </div>
+                        <div class="achievement-badge">
+                            <div class="achievement-icon">🚀</div>
+                            <div class="achievement-name">Fast Finisher</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scholarships & Updates Section -->
+            <div class="section-header">
+                <div class="section-divider"></div>
+                <h2 class="section-title">💰 Scholarships & Updates | छात्रवृत्ति और अपडेट</h2>
+            </div>
+
+            <div class="profile-grid">
+                <div class="info-card">
+                    <div class="card-header-custom">
+                        <span class="card-icon">🎓</span>
+                        <h3 class="card-title">Eligible Scholarships</h3>
+                    </div>
+                    <div class="scheme-list">
+                        <div class="scheme-item">
+                            <div class="scheme-header">
+                                <div class="scheme-title">National Merit Scholarship</div>
+                                <span class="scheme-status">Eligible ✓</span>
+                            </div>
+                            <p class="scheme-description">
+                                Merit-based scholarship for top 10% students nationwide. Provides ₹50,000 annually.
+                            </p>
+                            <div class="scheme-deadline">⏰ Apply by: December 31, 2025</div>
+                        </div>
+                        <div class="scheme-item">
+                            <div class="scheme-header">
+                                <div class="scheme-title">Digital India Scholar Program</div>
+                                <span class="scheme-status">Eligible ✓</span>
+                            </div>
+                            <p class="scheme-description">
+                                Special program for students excelling in technology subjects. Free laptop & internet access.
+                            </p>
+                            <div class="scheme-deadline">⏰ Apply by: November 15, 2025</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <div class="card-header-custom">
+                        <span class="card-icon">📢</span>
+                        <h3 class="card-title">Updates For You</h3>
+                    </div>
+                    <div class="updates-list">
+                        <div class="update-item">
+                            <div class="update-date">OCT 02, 2025</div>
+                            <div class="update-text">
+                                🎉 Congratulations! You've been selected for the Advanced Mathematics Workshop.
+                            </div>
+                        </div>
+                        <div class="update-item">
+                            <div class="update-date">SEP 28, 2025</div>
+                            <div class="update-text">
+                                📚 New study materials available for your upcoming exams in Science and English.
+                            </div>
+                        </div>
+                        <div class="update-item">
+                            <div class="update-date">SEP 25, 2025</div>
+                            <div class="update-text">
+                                ⚡ Your performance report for September is ready. Check your progress!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interests Section -->
+            <div class="section-header">
+                <div class="section-divider"></div>
+                <h2 class="section-title">💫 Interests & Hobbies | रुचियाँ और शौक</h2>
+            </div>
+
+            <div class="profile-grid">
+                <div class="info-card full-width-card">
+                    {% if interests %}
+                        <div class="interests-container">
+                            {% for interest in interests %}
+                                <span class="interest-tag">{{ interest }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="interests-container">
+                            <span class="interest-tag">Mathematics</span>
+                            <span class="interest-tag">Science</span>
+                            <span class="interest-tag">Technology</span>
+                            <span class="interest-tag">Reading</span>
+                            <span class="interest-tag">Sports</span>
+                            <span class="interest-tag">Music</span>
+                            <span class="interest-tag">Art</span>
+                            <span class="interest-tag">Programming</span>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <a href="{{ url_for('home') }}" class="btn-custom btn-primary-custom">
+                    <span>🏠</span> Back to Home
+                </a>
+                <button class="btn-custom btn-secondary-custom" onclick="editProfile()">
+                    <span>✏️</span> Edit Profile
+                </button>
+                <button class="btn-custom btn-secondary-custom" onclick="downloadReport()">
+                    <span>📄</span> Download Report
+                </button>
+                <button class="btn-custom btn-secondary-custom" onclick="viewCertificates()">
+                    <span>🏆</span> View Certificates
+                </button>
+            </div>
+
+            <!-- Government Footer -->
+            <div class="gov-footer">
+                <div class="footer-links">
+                    <span>सत्यमेव जयते | Truth Alone Triumphs</span>
+                    <span>|</span>
+                    <span>भारत सरकार | Government of India</span>
+                    <span>|</span>
+                    <span>Digital India Initiative</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    function editProfile() {
+        alert('Profile editing feature coming soon!');
+    }
+
+    function downloadReport() {
+        alert('Downloading your performance report...');
+    }
+
+    function viewCertificates() {
+        alert('Certificate viewer coming soon!');
+    }
+    </script>
+</body>
+</html>

@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>परामर्श सेवा | Counseling Service - भारत सरकार</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 140, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(0, 128, 0, 0.1) 0%, transparent 50%),
+                linear-gradient(145deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+            color: #2c3e50;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ff8c00' fill-opacity='0.02'%3E%3Cpath d='M20 20c0 11.046-8.954 20-20 20v-20h20z'/%3E%3C/g%3E%3C/svg%3E");
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Government Header */
+        .gov-header-stripe {
+            background: linear-gradient(90deg, #ff8c00 0%, #ffffff 30%, #ffffff 70%, #008000 100%);
+            height: 6px;
+            position: relative;
+        }
+
+        .gov-header-stripe::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                90deg,
+                #ff8c00 0px,
+                #ff8c00 2px,
+                #ffffff 2px,
+                #ffffff 4px,
+                #008000 4px,
+                #008000 6px
+            );
+            animation: flagWave 3s ease-in-out infinite;
+        }
+
+        @keyframes flagWave {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .gov-header {
+            background: linear-gradient(135deg, #1a237e 0%, #0d47a1 50%, #01579b 100%);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 4px 20px rgba(26, 35, 126, 0.3);
+            position: relative;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .ashoka-emblem {
+            width: 64px;
+            height: 64px;
+            background: radial-gradient(circle, #ffd700 0%, #ff8c00 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            animation: emblemGlow 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes emblemGlow {
+            0% { box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2), 0 0 20px rgba(255, 215, 0, 0.3); }
+            100% { box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2), 0 0 30px rgba(255, 215, 0, 0.5); }
+        }
+
+        .header-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.5px;
+        }
+
+        .header-subtitle {
+            font-size: 16px;
+            color: #e3f2fd;
+            font-weight: 300;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .nav-link.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .previous-chats-btn {
+            background: linear-gradient(135deg, #ff8c00 0%, #ffd700 100%);
+            color: #1a237e;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .previous-chats-btn:hover {
+            background: linear-gradient(135deg, #e67e00 0%, #e6c200 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.3);
+        }
+
+        /* Main Content - GitHub Style */
+        .main-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 140px);
+            padding: 40px 0;
+        }
+
+        .counseling-center {
+            text-align: center;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .welcome-section {
+            margin-bottom: 48px;
+        }
+
+        .main-title {
+            font-size: 48px;
+            font-weight: 700;
+            color: #1a237e;
+            margin-bottom: 16px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            font-size: 24px;
+            color: #4caf50;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .privacy-message {
+            font-size: 18px;
+            color: #546e7a;
+            margin-bottom: 8px;
+            font-style: italic;
+        }
+
+        .privacy-assurance {
+            font-size: 16px;
+            color: #2e7d32;
+            font-weight: 500;
+        }
+
+        /* Question Section */
+        .question-section {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0;
+            margin-bottom: 32px;
+        }
+
+        .question-form {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .question-textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 20px;
+            border: 2px solid #e8eaf6;
+            border-radius: 12px;
+            font-size: 16px;
+            resize: vertical;
+            transition: all 0.3s ease;
+            background: #fafafa;
+            font-family: inherit;
+        }
+
+        .question-textarea:focus {
+            outline: none;
+            border-color: #3f51b5;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(63, 81, 181, 0.1);
+        }
+
+        .question-textarea::placeholder {
+            color: #9e9e9e;
+            font-style: italic;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #1a237e 0%, #3f51b5 100%);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(135deg, #0d47a1 0%, #1976d2 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(26, 35, 126, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Loading */
+        .loading {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            color: #666;
+            font-style: italic;
+            margin-top: 16px;
+        }
+
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 3px solid #e0e0e0;
+            border-top: 3px solid #3f51b5;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Answer Section */
+        .answer-section {
+            background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+            border-radius: 16px;
+            padding: 32px;
+            border-left: 5px solid #2196f3;
+            display: none;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .answer-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #1a237e;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .answer-text {
+            color: #37474f;
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 36px;
+            }
+
+            .subtitle {
+                font-size: 20px;
+            }
+
+            .question-section {
+                padding: 24px;
+                margin: 0 16px 24px;
+            }
+
+            .nav-section {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Government Header -->
+    <div class="gov-header-stripe"></div>
+    <div class="gov-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-left">
+                    <div class="ashoka-emblem">
+                        <span style="color: #1a237e; font-weight: bold;">☸</span>
+                    </div>
+                    <div>
+                        <h1 class="header-title">Smart शिक्षा</h1>
+                    </div>
+                </div>
+                <div class="nav-section">
+                    <nav class="nav-links">
+                        <a href="{{ url_for('home') }}" class="nav-link">होम | Home</a>
+                        <a href="{{ url_for('landing') }}" class="nav-link">लॉगिन | Login</a>
+                        <a href="{{ url_for('counselling') }}" class="nav-link active">परामर्श | Counseling</a>
+                        <a href="{{ url_for('previous_chats') }}" class="previous-chats-btn">📚 Previous Chats</a>
+
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="main-content">
+            <div class="counseling-center">
+                <!-- Welcome Section -->
+                <div class="welcome-section">
+                    <h1 class="main-title">🤗 यहाँ आपका स्वागत है</h1>
+                    <h2 class="subtitle">Welcome to Safe Space</h2>
+                    <p class="privacy-message">Feel free to ask any question</p>
+                    <p class="privacy-assurance">🔒 No one will know it was you - Complete Privacy Guaranteed</p>
+                </div>
+
+                <!-- Question Section -->
+                <div class="question-section">
+                    <form class="question-form" id="questionForm">
+                        <textarea 
+                            class="question-textarea" 
+                            id="questionInput"
+                            placeholder="यहाँ अपना प्रश्न या चिंता साझा करें... 
+
+Whether it's about studies, career confusion, family pressure, friendship issues, anxiety, or anything else that's bothering you - we're here to listen and help.
+
+Write in Hindi or English, whatever feels comfortable."
+                            required
+                        ></textarea>
+                        <button type="submit" class="submit-btn" id="submitBtn">
+                            Submit Your Question
+                        </button>
+                    </form>
+
+                    <!-- Loading -->
+                    <div class="loading" id="loading">
+                        <div class="spinner"></div>
+                        <span>Our counselor is preparing your response...</span>
+                    </div>
+                </div>
+                <!-- Answer Section -->
+                <div class="answer-section" id="answerSection">
+                    <h3 class="answer-title">
+                        ✨ Counselor's Response
+                    </h3>
+                    <div class="answer-text" id="answerText">
+                        <!-- Response will appear here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Counseling responses based on keywords
+        const responses = {
+            stress: `**Managing Stress and Anxiety:**
+
+🌟 **Immediate Relief:**
+• Practice deep breathing: Inhale for 4 counts, hold for 4, exhale for 4
+• Take short breaks every hour while studying
+• Go for a 15-minute walk or do light stretching
+
+💪 **Long-term Strategies:**
+• Create a realistic daily schedule
+• Break large tasks into smaller, manageable parts
+• Get 7-8 hours of sleep regularly
+• Talk to trusted friends or family members
+
+🎯 **Remember:** Stress is temporary. You have the strength to overcome this. Every small step counts towards your success.`,
+
+            career: `**Career Guidance:**
+
+🤔 **Self-Assessment:**
+• List your genuine interests and subjects you enjoy
+• Identify your natural strengths and skills
+• Consider what kind of lifestyle you want in the future
+
+📚 **Exploration Steps:**
+• Research different career paths thoroughly
+• Talk to professionals in fields you're considering
+• Attend career counseling sessions at school
+• Consider job shadowing or internships
+
+✨ **Important Truth:** There's no "perfect" career choice. What matters most is choosing something that aligns with your interests and gives you a sense of purpose. Both engineering and medical fields offer great opportunities - choose based on your passion, not just external pressure.`,
+
+            family: `**Dealing with Family Pressure:**
+
+💙 **Understanding:**
+• Your feelings are completely valid and normal
+• Parents sometimes compare without realizing the emotional impact
+• You are unique and don't need to be like anyone else
+
+🗣️ **Communication:**
+• Have a calm, honest conversation with your parents
+• Explain how comparisons make you feel
+• Share your own goals and achievements
+• Ask for their support in your unique journey
+
+🌟 **Self-Care:**
+• Focus on your own growth and progress
+• Celebrate your personal achievements
+• Build confidence through your hobbies and interests
+• Remember: You are enough exactly as you are.`,
+
+            study: `**Study Problems and Academic Challenges:**
+
+📖 **Effective Study Strategies:**
+• Use the Pomodoro Technique: 25 minutes study, 5-minute break
+• Create a distraction-free study environment
+• Teach someone else what you've learned (it reinforces your understanding)
+• Use visual aids like mind maps and charts
+
+🧠 **For Difficult Subjects:**
+• Break complex topics into smaller parts
+• Start with basics and build gradually
+• Practice regularly rather than cramming
+• Don't hesitate to ask teachers or friends for help
+
+💡 **Remember:** Everyone learns at their own pace. Consistent effort matters more than being naturally gifted. Your hard work will definitely pay off.`,
+
+            friendship: `**Making Friends and Social Connections:**
+
+🤝 **Building Friendships:**
+• Start with simple greetings and smiles
+• Join clubs or activities that match your interests
+• Be genuinely interested in others
+• Offer help when someone needs it
+
+💫 **Overcoming Loneliness:**
+• Remember that feeling lonely is temporary
+• Quality friendships are better than quantity
+• Be patient - genuine connections take time to develop
+• Focus on being a good friend to yourself first
+
+🌈 **Self-Confidence:**
+• Develop your hobbies and interests
+• Be authentic - don't try to be someone you're not
+• Practice self-compassion
+• Remember: The right friends will appreciate you for who you are.`
+        };
+
+        document.getElementById('questionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const input = document.getElementById('questionInput');
+            const question = input.value.trim();
+            
+            if (!question) return;
+            
+            showLoading();
+            
+            setTimeout(() => {
+                const response = generateResponse(question);
+                showAnswer(response);
+                input.value = '';
+            }, 2000 + Math.random() * 2000);
+        });
+
+        function showLoading() {
+            document.getElementById('loading').style.display = 'flex';
+            document.getElementById('submitBtn').disabled = true;
+            document.getElementById('answerSection').style.display = 'none';
+        }
+
+        function generateResponse(question) {
+            const lowerQuestion = question.toLowerCase();
+            
+            if (lowerQuestion.includes('stress') || lowerQuestion.includes('anxiety') || lowerQuestion.includes('परीक्षा') || lowerQuestion.includes('तनाव')) {
+                return responses.stress;
+            } else if (lowerQuestion.includes('career') || lowerQuestion.includes('करियर') || lowerQuestion.includes('engineer') || lowerQuestion.includes('medical')) {
+                return responses.career;
+            } else if (lowerQuestion.includes('parent') || lowerQuestion.includes('family') || lowerQuestion.includes('compare') || lowerQuestion.includes('तुलना')) {
+                return responses.family;
+            } else if (lowerQuestion.includes('study') || lowerQuestion.includes('math') || lowerQuestion.includes('गणित') || lowerQuestion.includes('पढ़ाई')) {
+                return responses.study;
+            } else if (lowerQuestion.includes('friend') || lowerQuestion.includes('lonely') || lowerQuestion.includes('अकेला') || lowerQuestion.includes('दोस्त')) {
+                return responses.friendship;
+            } else {
+                return `**Thank You for Sharing:**
+
+Your question is important and your feelings are valid. Here's some general guidance:
+
+🌟 **Remember:**
+• This situation is temporary and will improve
+• It's okay to ask for help - it shows strength, not weakness
+• You have more resilience than you realize
+
+🤝 **Next Steps:**
+• Consider talking to a school counselor or trusted teacher
+• Share your concerns with family or close friends
+• Take care of your physical and mental health
+
+💙 **You're Not Alone:** Many students face similar challenges. With the right support and strategies, you can overcome this.
+
+If you'd like more specific guidance, please feel free to ask again with more details about your situation.`;
+            }
+        }
+
+        function showAnswer(response) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('submitBtn').disabled = false;
+            
+            const answerSection = document.getElementById('answerSection');
+            const answerText = document.getElementById('answerText');
+            
+            answerText.innerHTML = response.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            answerSection.style.display = 'block';
+            answerSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Auto-resize textarea
+        document.getElementById('questionInput').addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.max(150, this.scrollHeight) + 'px';
+        });
+    </script>
+</body>
+</html>

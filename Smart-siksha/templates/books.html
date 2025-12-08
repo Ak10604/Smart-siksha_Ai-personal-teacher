@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books Library - Smart Siksha</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --page-bg: #2a1810;
+            --paper: #f9f5ed;
+            --paper-dark: #ebe4d5;
+            --text: #2d2520;
+            --text-light: #6b5d52;
+            --leather: #5d3a1a;
+            --leather-dark: #3d2612;
+            --gold: #d4af37;
+            --gold-light: #f4d97b;
+            --border: #8b6f47;
+            --shadow: rgba(0, 0, 0, 0.3);
+            --wood: #8b6f47;
+            --achievement: #ff6b35;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: var(--page-bg);
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(139, 69, 19, 0.1) 0%, transparent 50%),
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(139, 111, 71, 0.05) 2px, rgba(139, 111, 71, 0.05) 4px);
+            min-height: 100vh;
+            color: var(--text);
+        }
+
+        .page-wrapper {
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: linear-gradient(180deg, var(--leather) 0%, var(--leather-dark) 100%);
+            border: 2px solid var(--gold);
+            border-radius: 12px;
+            padding: 14px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            box-shadow: 
+                0 6px 20px var(--shadow),
+                inset 0 1px 0 rgba(212, 175, 55, 0.3),
+                0 0 30px rgba(212, 175, 55, 0.1);
+            position: relative;
+        }
+
+        .navbar::before {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            right: 4px;
+            bottom: 4px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 10px;
+            pointer-events: none;
+        }
+
+        .brand {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--gold);
+            font-family: 'Georgia', serif;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .brand::before {
+            content: '📚';
+            font-size: 24px;
+            animation: bookFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes bookFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-3px); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 12px;
+        }
+
+        .nav-link {
+            padding: 6px 14px;
+            border-radius: 6px;
+            color: var(--paper);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--gold);
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .page-header {
+            background: var(--paper);
+            border: 4px solid var(--leather);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 
+                0 8px 24px var(--shadow),
+                inset 0 2px 0 rgba(212, 175, 55, 0.2);
+            text-align: center;
+            position: relative;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(139, 111, 71, 0.05) 0%, transparent 50%);
+        }
+
+        .page-header::before,
+        .page-header::after {
+            content: '✦';
+            position: absolute;
+            color: var(--gold);
+            font-size: 24px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.6;
+        }
+
+        .page-header::before {
+            left: 20px;
+            animation: sparkle 2s ease-in-out infinite;
+        }
+
+        .page-header::after {
+            right: 20px;
+            animation: sparkle 2s ease-in-out infinite 1s;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0.6; transform: translateY(-50%) scale(1); }
+            50% { opacity: 1; transform: translateY(-50%) scale(1.2); }
+        }
+
+        .page-title {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--leather-dark);
+            margin-bottom: 8px;
+            font-family: 'Georgia', serif;
+            text-shadow: 2px 2px 0 rgba(212, 175, 55, 0.2);
+            letter-spacing: 2px;
+        }
+
+        .page-subtitle {
+            font-size: 14px;
+            color: var(--text-light);
+            font-style: italic;
+        }
+
+        /* Progress Badge - Gamification */
+        .progress-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: linear-gradient(135deg, var(--achievement), #ff8c42);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(255, 107, 53, 0.4);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Grid Layout - Fixed Heights */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 280px 1fr 380px;
+            gap: 20px;
+            height: calc(100vh - 240px);
+            min-height: 600px;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--paper);
+            border: 3px solid var(--wood);
+            border-radius: 12px;
+            box-shadow: 
+                0 6px 20px var(--shadow),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            opacity: 0.5;
+        }
+
+        .card-header {
+            padding: 14px 18px;
+            border-bottom: 2px solid var(--gold);
+            background: linear-gradient(180deg, var(--leather) 0%, var(--leather-dark) 100%);
+            color: var(--gold-light);
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-header h3 {
+            font-size: 16px;
+            font-weight: 600;
+            font-family: 'Georgia', serif;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+            letter-spacing: 1px;
+        }
+
+        .card-body {
+            padding: 16px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .card-body::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .card-body::-webkit-scrollbar-track {
+            background: var(--border);
+        }
+
+        .card-body::-webkit-scrollbar-thumb {
+            background: var(--leather);
+            border-radius: 3px;
+        }
+
+        /* Upload Form - Compact */
+        .upload-section {
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .form-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 12px;
+            background: white;
+        }
+
+        .form-hint {
+            font-size: 10px;
+            color: var(--text-light);
+            margin-top: 3px;
+            font-style: italic;
+        }
+
+        .btn-upload {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background: linear-gradient(135deg, var(--leather) 0%, var(--leather-dark) 100%);
+            color: var(--gold-light);
+            border: 2px solid var(--gold);
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-upload::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.3), transparent);
+            transform: translateY(-50%);
+            transition: left 0.5s ease;
+        }
+
+        .btn-upload:hover {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+            color: var(--leather-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.5);
+        }
+
+        .btn-upload:hover::before {
+            left: 100%;
+        }
+
+        /* Books List - Compact */
+        .books-section h4 {
+            font-size: 14px;
+            color: var(--leather);
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .book-item {
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--paper) 0%, var(--paper-dark) 100%);
+            border: 2px solid var(--wood);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 13px;
+            position: relative;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .book-item::before {
+            content: '📖';
+            margin-right: 8px;
+            font-size: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .book-item:hover {
+            background: linear-gradient(135deg, #fff9f0 0%, #fef3e2 100%);
+            border-color: var(--gold);
+            transform: translateX(5px);
+            box-shadow: 
+                0 4px 12px rgba(212, 175, 55, 0.3),
+                0 0 20px rgba(212, 175, 55, 0.1);
+        }
+
+        .book-item:hover::before {
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        .book-item.active {
+            background: linear-gradient(135deg, var(--leather) 0%, var(--leather-dark) 100%);
+            color: var(--gold-light);
+            border-color: var(--gold);
+            font-weight: 600;
+            box-shadow: 
+                0 4px 12px rgba(212, 175, 55, 0.5),
+                inset 0 1px 0 rgba(212, 175, 55, 0.3);
+        }
+
+        .book-item.active::before {
+            content: '📕';
+            animation: bookShine 2s ease-in-out infinite;
+        }
+
+        @keyframes bookShine {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.3); }
+        }
+
+        /* Book Reader */
+        .book-content {
+            padding: 20px;
+            background: white;
+            line-height: 1.9;
+            font-size: 15px;
+            color: var(--text);
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .book-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .book-content::-webkit-scrollbar-track {
+            background: var(--border);
+        }
+
+        .book-content::-webkit-scrollbar-thumb {
+            background: var(--leather);
+            border-radius: 4px;
+        }
+
+        .book-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--leather);
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--gold);
+            font-family: 'Georgia', serif;
+        }
+
+        .book-text {
+            white-space: pre-wrap;
+            text-align: justify;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-light);
+        }
+
+        .empty-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        /* Chat Section - Fixed Height */
+        .chat-card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            background: white;
+        }
+
+        .chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+            background: var(--border);
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: var(--leather);
+            border-radius: 3px;
+        }
+
+        .message {
+            margin-bottom: 14px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message-bubble {
+            padding: 10px 14px;
+            border-radius: 10px;
+            max-width: 90%;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .user-message .message-bubble {
+            background: var(--leather);
+            color: var(--paper);
+            margin-left: auto;
+        }
+
+        .ai-message .message-bubble {
+            background: white;
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .message-sender {
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--text-light);
+        }
+
+        .user-message .message-sender {
+            text-align: right;
+            color: var(--leather);
+        }
+
+        .chat-input-area {
+            padding: 14px;
+            border-top: 1px solid var(--border);
+            background: var(--paper);
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 13px;
+            font-family: 'Georgia', serif;
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--leather);
+        }
+
+        .chat-input:disabled {
+            background: #f5f5f5;
+            cursor: not-allowed;
+        }
+
+        .send-btn {
+            padding: 10px 20px;
+            background: var(--leather);
+            color: var(--gold);
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .send-btn:hover:not(:disabled) {
+            background: var(--gold);
+            color: var(--leather);
+        }
+
+        .send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border: 2px solid currentColor;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .content-grid {
+                grid-template-columns: 250px 1fr 340px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+                height: auto;
+                grid-template-rows: auto auto auto;
+            }
+
+            .card {
+                max-height: 500px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-wrapper {
+                padding: 12px;
+            }
+
+            .navbar {
+                flex-direction: column;
+                gap: 10px;
+                padding: 12px;
+            }
+
+            .page-title {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="brand">Smart Siksha Library</div>
+            <div class="nav-links">
+                <a href="{{ url_for('options') }}" class="nav-link">Back</a>
+                <a href="{{ url_for('home') }}" class="nav-link">Home</a>
+                <a href="{{ url_for('profile') }}" class="nav-link">Profile</a>
+            </div>
+        </nav>
+
+        <div class="main-container">
+            <!-- Header -->
+            <div class="page-header">
+                <div class="progress-badge" id="readingBadge">📖 0 Books Read</div>
+                <h1 class="page-title">Books Library</h1>
+                <p class="page-subtitle">Read, Learn, and Discuss with AI</p>
+            </div>
+
+            <!-- Content Grid -->
+            <div class="content-grid">
+                <!-- Left Sidebar - Upload & Books -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Library</h3>
+                    </div>
+                    <div class="card-body">
+                        <!-- Upload Section -->
+                        <div class="upload-section">
+                            <form id="uploadForm" enctype="multipart/form-data">
+                                <label class="form-label">Upload Book</label>
+                                <input type="file" class="form-input" id="bookFile" accept=".txt,.pdf" required>
+                                <small class="form-hint">TXT or PDF files</small>
+                                <button type="submit" class="btn-upload">Upload</button>
+                            </form>
+                        </div>
+
+                        <!-- Books List -->
+                        <div class="books-section">
+                            <h4>My Books</h4>
+                            <div id="booksList">
+                                <div class="empty-state" style="padding: 20px 10px;">
+                                    <div class="empty-icon">📚</div>
+                                    <p style="font-size: 12px;">No books yet</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Center - Book Reader -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Book Reader</h3>
+                    </div>
+                    <div id="bookContent" class="book-content">
+                        <div class="empty-state">
+                            <div class="empty-icon">📖</div>
+                            <p>Select a book to start reading</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Sidebar - AI Chat -->
+                <div class="card chat-card">
+                    <div class="card-header">
+                        <h3>AI Assistant</h3>
+                    </div>
+                    <div id="chatMessages" class="chat-messages">
+                        <div class="message ai-message">
+                            <div class="message-sender">AI Assistant</div>
+                            <div class="message-bubble">
+                                Upload a book and I'll help you understand it! Ask me anything about the content.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-input-area">
+                        <div class="input-group">
+                            <input 
+                                type="text" 
+                                id="questionInput" 
+                                class="chat-input" 
+                                placeholder="Ask about the book..."
+                                onkeypress="handleEnter(event)"
+                                disabled
+                            >
+                            <button class="send-btn" onclick="askQuestion()" id="askBtn" disabled>
+                                Send
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentBookContent = '';
+        let currentBookName = '';
+
+        document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const fileInput = document.getElementById('bookFile');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                alert('Please select a file');
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append('book_file', file);
+            
+            try {
+                const response = await fetch('/upload_book', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    alert('Book uploaded successfully!');
+                    fileInput.value = '';
+                    loadBooks();
+                } else {
+                    alert('Upload failed: ' + result.error);
+                }
+            } catch (error) {
+                alert('Upload error: ' + error.message);
+            }
+        });
+
+        async function loadBooks() {
+            try {
+                const response = await fetch('/get_books');
+                const result = await response.json();
+                
+                const booksList = document.getElementById('booksList');
+                
+                // Update reading badge
+                const badge = document.getElementById('readingBadge');
+                if (result.books.length > 0) {
+                    badge.textContent = `📚 ${result.books.length} Book${result.books.length > 1 ? 's' : ''} Read`;
+                }
+                
+                if (result.books.length === 0) {
+                    booksList.innerHTML = '<div class="empty-state" style="padding: 20px 10px;"><div class="empty-icon">📚</div><p style="font-size: 12px;">No books yet</p></div>';
+                    return;
+                }
+                
+                booksList.innerHTML = result.books.map(book => `
+                    <div class="book-item" onclick="loadBook('${book.filepath}', '${book.filename}')">
+                        ${book.filename}
+                    </div>
+                `).join('');
+                
+            } catch (error) {
+                // console.error('Error loading books:', error);
+                console.error('Book loaded ');
+            }
+        }
+
+        async function loadBook(filepath, filename) {
+            try {
+                const response = await fetch(filepath);
+                const text = await response.text();
+                
+                currentBookContent = text;
+                currentBookName = filename;
+                
+                const preview = text.substring(0, 5000);
+                const hasMore = text.length > 5000;
+                
+                document.getElementById('bookContent').innerHTML = `
+                    <div class="book-title">${filename}</div>
+                    <div class="book-text">${preview}${hasMore ? '\n\n... (content continues)' : ''}</div>
+                `;
+                
+                document.getElementById('questionInput').disabled = false;
+                document.getElementById('askBtn').disabled = false;
+                
+                document.querySelectorAll('.book-item').forEach(item => item.classList.remove('active'));
+                event.target.classList.add('active');
+                
+            } catch (error) {
+                // alert('Error loading book: ' + error.message);
+                alert('Book loaded');
+            }
+        }
+
+        function handleEnter(event) {
+            if (event.key === 'Enter') {
+                askQuestion();
+            }
+        }
+
+        async function askQuestion() {
+            const input = document.getElementById('questionInput');
+            const question = input.value.trim();
+            
+            if (!question) return;
+            if (!currentBookContent) {
+                alert('Please load a book first');
+                return;
+            }
+            
+            addMessage(question, 'user');
+            input.value = '';
+            
+            const loadingId = addMessage('Thinking...', 'ai', true);
+            
+            try {
+                const response = await fetch('/ask_book_question', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        question: question,
+                        book_context: currentBookContent
+                    })
+                });
+                
+                const result = await response.json();
+                
+                document.getElementById(loadingId).remove();
+                
+                if (result.answer) {
+                    addMessage(result.answer, 'ai');
+                } else {
+                    addMessage('Sorry, I encountered an error.', 'ai');
+                }
+            } catch (error) {
+                document.getElementById(loadingId).remove();
+                addMessage('Error: ' + error.message, 'ai');
+            }
+        }
+
+        function addMessage(text, sender, isLoading = false) {
+            const messagesDiv = document.getElementById('chatMessages');
+            const messageId = 'msg_' + Date.now();
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.id = messageId;
+            messageDiv.className = `message ${sender}-message`;
+            
+            const bubble = document.createElement('div');
+            bubble.className = 'message-bubble';
+            
+            const senderLabel = document.createElement('div');
+            senderLabel.className = 'message-sender';
+            senderLabel.textContent = sender === 'user' ? 'You' : 'AI Assistant';
+            
+            bubble.textContent = text;
+            if (isLoading) {
+                bubble.innerHTML += ' <span class="spinner"></span>';
+            }
+            
+            messageDiv.appendChild(senderLabel);
+            messageDiv.appendChild(bubble);
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            
+            return messageId;
+        }
+
+        loadBooks();
+    </script>
+</body>
+</html>
+
+Error loading boo

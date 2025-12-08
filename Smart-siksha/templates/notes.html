@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes - {{ topic }}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #fff5f5 0%, #f0f8ff 100%);
+            height: 100vh;
+            overflow: hidden;
+            color: #334155;
+        }
+
+        /* Government Header */
+        .gov-header-stripe {
+            background: linear-gradient(90deg, #f97316 0%, #ffffff 50%, #22c55e 100%);
+            padding: 1px 0;
+        }
+
+        .gov-header {
+            background: #1e293b;
+            color: white;
+            padding: 12px 0;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .flag-circle {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #f97316 0%, #ffffff 50%, #22c55e 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .header-title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-link {
+            color: #f1f5f9;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover {
+            background: #334155;
+            color: #f97316;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            height: calc(100vh - 65px);
+            padding: 20px 24px;
+            display: flex;
+            gap: 20px;
+        }
+
+        /* Notes Section - Left */
+        .notes-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+        }
+
+        /* Notes Card */
+        .notes-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            padding: 20px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .notes-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #f1f5f9;
+            flex-shrink: 0;
+        }
+
+        .notes-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .notes-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 2px solid #3b82f6;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+        }
+
+        .notes-meta h2 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 2px;
+        }
+
+        .notes-meta p {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        .topic-tag {
+            background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%);
+            border: 2px solid #f97316;
+            color: #c2410c;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .notes-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 18px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(6, 182, 212, 0.4);
+        }
+
+        /* PDF Viewer Area */
+        .pdf-viewer-area {
+            flex: 1;
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            min-height: 0;
+        }
+
+        .pdf-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .pdf-placeholder {
+            text-align: center;
+            color: #64748b;
+            padding: 40px;
+        }
+
+        .placeholder-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #e2e8f0;
+            border-top: 4px solid #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .status-text {
+            font-size: 14px;
+            font-weight: 500;
+            color: #64748b;
+        }
+
+        .generation-prompt {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 2px solid #93c5fd;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            max-width: 500px;
+        }
+
+        .generation-prompt h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1e40af;
+            margin-bottom: 16px;
+        }
+
+        .generation-prompt p {
+            color: #64748b;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        /* Right Sidebar */
+        .right-sidebar {
+            width: 420px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* AI Tutor Card */
+        .ai-tutor-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .tutor-header {
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            color: white;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tutor-avatar {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .tutor-info h3 {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .tutor-info p {
+            font-size: 11px;
+            opacity: 0.9;
+        }
+
+        .chat-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: #f8fafc;
+            min-height: 0;
+        }
+
+        .chat-area::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .chat-area::-webkit-scrollbar-track {
+            background: #e2e8f0;
+        }
+
+        .chat-area::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+
+        .message {
+            margin-bottom: 16px;
+            animation: messageSlide 0.3s ease;
+        }
+
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message-label {
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #64748b;
+        }
+
+        .message-content {
+            padding: 12px 16px;
+            border-radius: 12px;
+            max-width: 85%;
+            word-wrap: break-word;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .user-message .message-label {
+            text-align: right;
+        }
+
+        .user-message .message-content {
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            color: white;
+            margin-left: auto;
+        }
+
+        .ai-message .message-content {
+            background: white;
+            color: #1e293b;
+            border: 2px solid #e2e8f0;
+        }
+
+        .chat-input-container {
+            padding: 16px 20px;
+            background: white;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        .input-wrapper {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 10px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .chat-input:focus {
+            border-color: #06b6d4;
+        }
+
+        .send-button {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+
+        .send-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(6, 182, 212, 0.4);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .right-sidebar {
+                width: 380px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .main-container {
+                flex-direction: column;
+            }
+
+            .right-sidebar {
+                width: 100%;
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Government Header -->
+    <div class="gov-header-stripe"></div>
+    <div class="gov-header">
+        <div class="header-content">
+            <div class="header-left">
+                <div class="flag-circle">
+                    <span style="color: #000000; font-weight: bold;">SS</span>
+                </div>
+                <h1 class="header-title">Smart शिक्षा - Study Notes</h1>
+            </div>
+            <div class="nav-links">
+                <a href="{{ url_for('options') }}" class="nav-link">← Back</a>
+                <a href="{{ url_for('home') }}" class="nav-link">Home</a>
+                <a href="{{ url_for('profile') }}" class="nav-link">Profile</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Left: Notes Section -->
+        <div class="notes-section">
+            <div class="notes-card">
+                <div class="notes-header">
+                    <div class="notes-info">
+                        <div class="notes-icon">📄</div>
+                        <div class="notes-meta">
+                            <h2>Study Notes</h2>
+                            <p>Personalized for your learning level</p>
+                        </div>
+                        <div class="topic-tag">{{ topic }}</div>
+                    </div>
+                    <div class="notes-actions">
+                        <button class="btn btn-primary" onclick="generateNewPDF()">
+                            🔄 Regenerate
+                        </button>
+                    </div>
+                </div>
+
+                <div class="pdf-viewer-area">
+                    <!-- PDF Status -->
+                    <div id="pdfStatus" class="pdf-placeholder">
+                        <div class="spinner"></div>
+                        <p class="status-text">Generating your personalized notes...</p>
+                    </div>
+
+                    <!-- PDF Frame -->
+                    <iframe id="pdfFrame" class="pdf-frame hidden"></iframe>
+
+                    <!-- Generation Prompt -->
+                    <div id="pdfError" class="generation-prompt hidden">
+                        <h3>📝 Notes Generation</h3>
+                        <p>We're preparing your personalized study notes tailored to your learning level. This may take a moment...</p>
+                        <button class="btn btn-primary" onclick="checkPDFStatus()">
+                            Check Status
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: AI Tutor Sidebar -->
+        <div class="right-sidebar">
+            <div class="ai-tutor-card">
+                <div class="tutor-header">
+                    <div class="tutor-avatar">🤖</div>
+                    <div class="tutor-info">
+                        <h3>AI Tutor</h3>
+                        <p>Ask questions about {{ topic }}</p>
+                    </div>
+                </div>
+                <div class="chat-area" id="chatMessages">
+                    <div class="message ai-message">
+                        <div class="message-label">AI Tutor</div>
+                        <div class="message-content">
+                            Hello! I'm here to help you learn about {{ topic }}. What would you like to know?
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-input-container">
+                    <div class="input-wrapper">
+                        <input 
+                            type="text" 
+                            id="chatInput" 
+                            class="chat-input" 
+                            placeholder="Ask a question..."
+                            onkeypress="handleEnter(event)"
+                        >
+                        <button class="send-button" onclick="sendMessage()">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let checkInterval;
+
+        // Chat Functions
+        function handleEnter(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const question = input.value.trim();
+            
+            if (!question) return;
+            
+            addMessage(question, 'user');
+            input.value = '';
+            
+            const loadingId = addMessage('Thinking...', 'ai', true);
+            
+            try {
+                const response = await fetch('/ask_ai', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ question: question })
+                });
+                
+                const result = await response.json();
+                
+                document.getElementById(loadingId).remove();
+                
+                if (response.ok) {
+                    addMessage(result.answer, 'ai');
+                } else {
+                    addMessage('Sorry, I encountered an error. Please try again.', 'ai');
+                }
+            } catch (error) {
+                document.getElementById(loadingId).remove();
+                addMessage('Network error. Please check your connection.', 'ai');
+            }
+        }
+
+        function addMessage(text, sender, isLoading = false) {
+            const messagesDiv = document.getElementById('chatMessages');
+            const messageId = 'msg_' + Date.now();
+            
+            const messageDiv = document.createElement('div');
+            messageDiv.id = messageId;
+            messageDiv.className = `message ${sender}-message`;
+            
+            const label = document.createElement('div');
+            label.className = 'message-label';
+            label.textContent = sender === 'user' ? 'You' : 'AI Tutor';
+            
+            const content = document.createElement('div');
+            content.className = 'message-content';
+            content.textContent = text;
+            
+            if (isLoading) {
+                const spinner = document.createElement('span');
+                spinner.style.cssText = 'display: inline-block; width: 8px; height: 8px; border: 2px solid currentColor; border-top-color: transparent; border-radius: 50%; animation: spin 1s linear infinite; margin-left: 8px;';
+                content.appendChild(spinner);
+            }
+            
+            messageDiv.appendChild(label);
+            messageDiv.appendChild(content);
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            
+            return messageId;
+        }
+
+        // PDF Functions
+        async function generateNewPDF() {
+            document.getElementById('pdfStatus').classList.remove('hidden');
+            document.getElementById('pdfFrame').classList.add('hidden');
+            document.getElementById('pdfError').classList.add('hidden');
+            
+            try {
+                const response = await fetch('/generate_pdf', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                });
+                
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    loadPDF();
+                } else if (result.status === 'processing') {
+                    startStatusCheck();
+                } else {
+                    showError();
+                }
+            } catch (error) {
+                showError();
+            }
+        }
+
+        function startStatusCheck() {
+            checkInterval = setInterval(checkPDFStatus, 2000);
+        }
+
+        async function checkPDFStatus() {
+            try {
+                const pdfPath = '{{ pdf_path }}';
+                const response = await fetch(pdfPath, { method: 'HEAD' });
+                
+                if (response.ok) {
+                    clearInterval(checkInterval);
+                    loadPDF();
+                }
+            } catch (error) {
+                // Continue checking
+            }
+        }
+
+        function loadPDF() {
+            const pdfPath = '{{ pdf_path }}';
+            const timestamp = new Date().getTime();
+            
+            document.getElementById('pdfFrame').src = `${pdfPath}?ts=${timestamp}`;
+            document.getElementById('pdfStatus').classList.add('hidden');
+            document.getElementById('pdfFrame').classList.remove('hidden');
+            document.getElementById('pdfError').classList.add('hidden');
+            
+            clearInterval(checkInterval);
+        }
+
+        function showError() {
+            document.getElementById('pdfStatus').classList.add('hidden');
+            document.getElementById('pdfFrame').classList.add('hidden');
+            document.getElementById('pdfError').classList.remove('hidden');
+            
+            clearInterval(checkInterval);
+        }
+
+        // Check for existing PDF on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            checkPDFStatus();
+            
+            setTimeout(() => {
+                if (document.getElementById('pdfFrame').classList.contains('hidden') && 
+                    document.getElementById('pdfStatus').style.display !== 'none') {
+                    generateNewPDF();
+                }
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}My Badges{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center">My Badges</h1>
+    <div class="row mt-4">
+        {% if badges %}
+            {% for badge in badges %}
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <div class="option-icon">{{ badge.BadgeName }}</div>
+                            <h5 class="card-title">{{ badge.BadgeName }}</h5>
+                            <p class="card-text">Earned on: {{ badge.DateEarned }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-center">You haven't earned any badges yet.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

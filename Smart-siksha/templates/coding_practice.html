@@ -1,0 +1,669 @@
+{% extends "base.html" %}
+
+{% block title %}Smart Siksha - Coding Practice{% endblock %}
+
+{% block content %}
+<div class="theme-toggle-btn" onclick="toggleTheme()">
+    <span class="sun-icon">☀️</span>
+    <span class="moon-icon">🌙</span>
+</div>
+
+<div class="container-fluid mt-4 game-container">
+    <div class="row">
+        <div class="col-12">
+            <div class="game-header mb-4">
+                <div class="title-container">
+                    <h1 class="game-title">
+                        <span class="title-char">S</span>
+                        <span class="title-char">M</span>
+                        <span class="title-char">A</span>
+                        <span class="title-char">R</span>
+                        <span class="title-char">T</span>
+                        <span class="title-space"></span>
+                        <span class="title-char">S</span>
+                        <span class="title-char">I</span>
+                        <span class="title-char">K</span>
+                        <span class="title-char">S</span>
+                        <span class="title-char">H</span>
+                        <span class="title-char">A</span>
+                    </h1>
+                    <div class="subtitle">💻 Coding Adventure Zone</div>
+                </div>
+                <a href="/home" class="pixel-btn back-btn">← Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Code Editor Section -->
+        <div class="col-lg-6 mb-4">
+            <div class="game-card editor-card">
+                <div class="card-header-game">
+                    <div class="header-content">
+                        <h5 class="card-title-game">✏️ Code Editor</h5>
+                        <div class="xp-badge">XP: 0</div>
+                    </div>
+                    <button class="pixel-btn run-btn" onclick="runCode()">
+                        <span class="btn-icon">▶</span> Run Code
+                    </button>
+                </div>
+                <div class="card-body-game">
+                    <textarea id="card-body-game" class="code-textarea" placeholder="# Write your Python code here...
+# Example:
+print('Hello, World!')
+
+# Try some math:
+x = 5 + 3
+print('5 + 3 =', x)">print("Hello, World!")
+print("Welcome to coding!")</textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Output & Lessons Section -->
+        <div class="col-lg-6">
+            <!-- Output Section -->
+            <div class="game-card output-card mb-3">
+                <div class="card-header-game">
+                    <h5 class="card-title-game">📺 Console Output</h5>
+                </div>
+                <div class="card-body-game">
+                    <pre id="output" class="output-terminal">Ready to run your code! Click "Run Code" button.</pre>
+                </div>
+            </div>
+
+            <!-- Lessons Section -->
+            <div class="game-card lesson-card">
+                <div class="card-header-game">
+                    <h5 class="card-title-game">📚 Knowledge Base</h5>
+                </div>
+                <div class="card-body-game">
+                    <div class="mb-3">
+                        <label class="form-label-game">Choose your quest:</label>
+                        <select id="lessonTopic" class="pixel-select">
+                            <option value="Python basics">Python Basics</option>
+                            <option value="Variables and data types">Variables & Data Types</option>
+                            <option value="If statements">If Statements</option>
+                            <option value="Loops">Loops (for & while)</option>
+                            <option value="Functions">Functions</option>
+                            <option value="Lists">Lists</option>
+                            <option value="Drawing with turtle">Drawing with Turtle</option>
+                        </select>
+                    </div>
+                    <button class="pixel-btn w-100 mb-3 learn-btn" onclick="getLesson()">
+                        <span class="btn-icon">💡</span> Get Lesson
+                    </button>
+                    
+                    <div id="lessonContent" class="lesson-display" style="display: none;">
+                        <!-- Lesson content will appear here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Examples -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="game-card examples-card">
+                <div class="card-header-game">
+                    <h5 class="card-title-game">⚡ Quick Challenges - Click to Try!</h5>
+                </div>
+                <div class="card-body-game">
+                    <div class="row">
+                        <div class="col-md-3 mb-2">
+                            <button class="pixel-btn example-btn w-100" onclick="loadExample('hello')">
+                                👋 Hello World
+                            </button>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <button class="pixel-btn example-btn w-100" onclick="loadExample('math')">
+                                🔢 Math Calculator
+                            </button>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <button class="pixel-btn example-btn w-100" onclick="loadExample('loop')">
+                                🔁 Loop Example
+                            </button>
+                        </div>
+                        <div class="col-md-3 mb-2">
+                            <button class="pixel-btn example-btn w-100" onclick="loadExample('function')">
+                                ⚙️ Function Example
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+:root {
+    --bg-primary: #f5f5dc;
+    --bg-secondary: #fff8dc;
+    --text-primary: #2c1810;
+    --text-secondary: #5a4a3a;
+    --accent-color: #ff6b35;
+    --accent-hover: #ff8c5a;
+    --card-bg: #fffef9;
+    --border-color: #3a2817;
+    --shadow-color: rgba(58, 40, 23, 0.3);
+    --terminal-bg: #2a2a2a;
+    --terminal-text: #00ff00;
+}
+
+[data-theme="dark"] {
+    --bg-primary: #0a0e27;
+    --bg-secondary: #1a1f3a;
+    --text-primary: #e0e0e0;
+    --text-secondary: #b0b0b0;
+    --accent-color: #00ffff;
+    --accent-hover: #33ffff;
+    --card-bg: #151a30;
+    --border-color: #00ffff;
+    --shadow-color: rgba(0, 255, 255, 0.3);
+    --terminal-bg: #000000;
+    --terminal-text: #00ff00;
+}
+
+* {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+body {
+    background: var(--bg-primary);
+    font-family: 'Press Start 2P', cursive;
+    color: var(--text-primary);
+    position: relative;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.03;
+    background-image: 
+        repeating-linear-gradient(0deg, transparent, transparent 2px, var(--text-primary) 2px, var(--text-primary) 4px),
+        repeating-linear-gradient(90deg, transparent, transparent 2px, var(--text-primary) 2px, var(--text-primary) 4px);
+    pointer-events: none;
+}
+
+[data-theme="light"] body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+    pointer-events: none;
+}
+
+.theme-toggle-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    width: 60px;
+    height: 60px;
+    background: var(--accent-color);
+    border: 4px solid var(--border-color);
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    box-shadow: 4px 4px 0 var(--shadow-color);
+    transition: all 0.2s ease;
+}
+
+.theme-toggle-btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--shadow-color);
+}
+
+.theme-toggle-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--shadow-color);
+}
+
+[data-theme="dark"] .sun-icon {
+    display: none;
+}
+
+[data-theme="light"] .moon-icon {
+    display: none;
+}
+
+.game-container {
+    padding: 20px;
+}
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.title-container {
+    text-align: center;
+    flex: 1;
+}
+
+.game-title {
+    font-size: 2.5rem;
+    margin: 0;
+    display: inline-block;
+    letter-spacing: 4px;
+}
+
+.title-char {
+    display: inline-block;
+    animation: bounce 1s ease-in-out infinite;
+    color: var(--accent-color);
+    text-shadow: 3px 3px 0 var(--shadow-color);
+}
+
+.title-char:nth-child(1) { animation-delay: 0s; }
+.title-char:nth-child(2) { animation-delay: 0.1s; }
+.title-char:nth-child(3) { animation-delay: 0.2s; }
+.title-char:nth-child(4) { animation-delay: 0.3s; }
+.title-char:nth-child(5) { animation-delay: 0.4s; }
+.title-char:nth-child(7) { animation-delay: 0.5s; }
+.title-char:nth-child(8) { animation-delay: 0.6s; }
+.title-char:nth-child(9) { animation-delay: 0.7s; }
+.title-char:nth-child(10) { animation-delay: 0.8s; }
+.title-char:nth-child(11) { animation-delay: 0.9s; }
+.title-char:nth-child(12) { animation-delay: 1s; }
+
+.title-space {
+    display: inline-block;
+    width: 20px;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.subtitle {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-top: 10px;
+    letter-spacing: 2px;
+}
+
+.game-card {
+    background: var(--card-bg);
+    border: 4px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 8px 8px 0 var(--shadow-color);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.game-card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 10px 10px 0 var(--shadow-color);
+}
+
+.card-header-game {
+    background: var(--bg-secondary);
+    border-bottom: 4px solid var(--border-color);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.card-title-game {
+    font-size: 0.9rem;
+    margin: 0;
+    color: var(--text-primary);
+}
+
+.xp-badge {
+    background: var(--accent-color);
+    color: white;
+    padding: 8px 15px;
+    border: 3px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 0.7rem;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.card-body-game {
+    padding: 20px;
+}
+
+.pixel-btn {
+    background: var(--accent-color);
+    color: white;
+    border: 3px solid var(--border-color);
+    padding: 12px 24px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.7rem;
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 4px 4px 0 var(--shadow-color);
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+}
+
+.pixel-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.3);
+    transition: left 0.3s ease;
+}
+
+.pixel-btn:hover::before {
+    left: 100%;
+}
+
+.pixel-btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--shadow-color);
+    background: var(--accent-hover);
+}
+
+.pixel-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--shadow-color);
+}
+
+.btn-icon {
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.code-textarea {
+    width: 100%;
+    height: 500px;
+    background: var(--terminal-bg);
+    color: #abb2bf;
+    border: 3px solid var(--border-color);
+    padding: 15px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    resize: none;
+    border-radius: 5px;
+}
+
+.code-textarea::placeholder {
+    color: #5c6370;
+}
+
+.output-terminal {
+    height: 200px;
+    overflow-y: auto;
+    background: var(--terminal-bg);
+    color: var(--terminal-text);
+    padding: 15px;
+    border: 3px solid var(--border-color);
+    border-radius: 5px;
+    font-family: 'Courier New', monospace;
+    margin: 0;
+    position: relative;
+}
+
+.output-terminal::before {
+    content: '> ';
+    color: var(--accent-color);
+}
+
+.form-label-game {
+    font-size: 0.7rem;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+    display: block;
+}
+
+.pixel-select {
+    width: 100%;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 3px solid var(--border-color);
+    padding: 12px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.7rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.lesson-display {
+    max-height: 250px;
+    overflow-y: auto;
+    background: var(--bg-secondary);
+    padding: 15px;
+    border: 3px solid var(--border-color);
+    border-radius: 5px;
+    white-space: pre-wrap;
+    line-height: 1.8;
+    font-size: 0.65rem;
+}
+
+.example-btn {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--accent-color);
+}
+
+.example-btn:hover {
+    background: var(--accent-color);
+    color: white;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border: 2px solid var(--border-color);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-hover);
+}
+
+/* Loading spinner */
+.spinner-border {
+    border: 4px solid var(--accent-color);
+    border-right-color: transparent;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .game-title {
+        font-size: 1.5rem;
+    }
+    
+    .pixel-btn {
+        font-size: 0.6rem;
+        padding: 10px 15px;
+    }
+    
+    .card-title-game {
+        font-size: 0.75rem;
+    }
+}
+</style>
+
+<script>
+// Theme toggle
+function toggleTheme() {
+    const html = document.documentElement;
+    const currentTheme = html.getAttribute('data-theme') || 'light';
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    html.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+}
+
+// Load saved theme
+document.addEventListener('DOMContentLoaded', function() {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+});
+
+// Run code
+async function runCode() {
+    const code = document.getElementById('card-body-game').value;
+    const output = document.getElementById('output');
+    
+    if (!code.trim()) {
+        output.textContent = 'Please write some code first!';
+        return;
+    }
+    
+    output.textContent = 'Running code...';
+    
+    try {
+        const response = await fetch('/run_code', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ code: code })
+        });
+        
+        const result = await response.json();
+        
+        if (result.status === 'success') {
+            output.textContent = result.output || 'Code executed successfully (no output)';
+        } else {
+            output.textContent = 'Error: ' + result.error;
+        }
+    } catch (error) {
+        output.textContent = 'Error: ' + error.message;
+    }
+}
+
+// Get coding lesson
+async function getLesson() {
+    const topic = document.getElementById('lessonTopic').value;
+    const lessonContent = document.getElementById('lessonContent');
+    
+    lessonContent.style.display = 'block';
+    lessonContent.innerHTML = '<div class="text-center"><div class="spinner-border text-info"></div><p>Loading lesson...</p></div>';
+    
+    try {
+        const response = await fetch('/get_coding_lesson', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ topic: topic })
+        });
+        
+        const result = await response.json();
+        
+        if (result.lesson) {
+            lessonContent.innerHTML = `<div style="white-space: pre-wrap; line-height: 1.8;">${result.lesson}</div>`;
+        } else {
+            lessonContent.innerHTML = '<p class="text-danger">Failed to load lesson</p>';
+        }
+    } catch (error) {
+        lessonContent.innerHTML = '<p class="text-danger">Error: ' + error.message + '</p>';
+    }
+}
+
+// Load example code
+function loadExample(type) {
+    const editor = document.getElementById('card-body-game');
+    
+    const examples = {
+        hello: `# Hello World Example
+print("Hello, World!")
+print("My name is Python!")
+print("I love coding!")`,
+        
+        math: `# Math Calculator
+a = 10
+b = 5
+
+print("Addition:", a + b)
+print("Subtraction:", a - b)
+print("Multiplication:", a * b)
+print("Division:", a / b)`,
+        
+        loop: `# Loop Example
+print("Counting from 1 to 5:")
+for i in range(1, 6):
+    print(i)
+
+print("\\nCounting down:")
+for i in range(5, 0, -1):
+    print(i)`,
+        
+        function: `# Function Example
+def greet(name):
+    return f"Hello, {name}!"
+
+def add_numbers(x, y):
+    return x + y
+
+print(greet("Alice"))
+print(greet("Bob"))
+print("5 + 3 =", add_numbers(5, 3))`
+    };
+    
+    editor.value = examples[type] || '';
+}
+
+// Allow Ctrl+Enter to run code
+document.getElementById('card-body-game').addEventListener('keydown', function(e) {
+    if (e.ctrlKey && e.key === 'Enter') {
+        runCode();
+    }
+});
+</script>
+{% endblock %}

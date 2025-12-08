@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>भारत सरकार | Government of India - Educational Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #fff5f5 0%, #f0f8ff 100%);
+            min-height: 100vh;
+            color: #334155;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        /* Government Header */
+        .gov-header-stripe {
+            background: linear-gradient(90deg, #f97316 0%, #ffffff 50%, #22c55e 100%);
+            padding: 1px 0;
+        }
+
+        .gov-header {
+            background: #1e293b;
+            color: white;
+            padding: 16px 0;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .flag-circle {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(45deg, #f97316 0%, #ffffff 50%, #22c55e 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .header-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .header-subtitle {
+            font-size: 14px;
+            color: #cbd5e1;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 32px 0;
+        }
+
+        /* Welcome Card */
+        .welcome-card {
+            background: linear-gradient(90deg, #dbeafe 0%, #e0e7ff 100%);
+            border-left: 4px solid #f97316;
+            border-radius: 8px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+
+        .badge {
+            background: #f97316;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            display: inline-block;
+            margin-bottom: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .badge:hover {
+            background: #ea580c;
+        }
+
+        .welcome-title {
+            font-size: 36px;
+            font-weight: bold;
+            color: #1e293b;
+            margin-bottom: 16px;
+        }
+
+        .welcome-description {
+            font-size: 18px;
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        .welcome-description span {
+            font-size: 16px;
+        }
+
+        /* Topics Section */
+        .topics-section {
+            margin-bottom: 24px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .section-divider {
+            width: 4px;
+            height: 32px;
+            background: linear-gradient(180deg, #f97316 0%, #22c55e 100%);
+            border-radius: 2px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1e293b;
+        }
+
+        /* Topic Grid */
+        .topic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .topic-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .topic-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            border-color: #fed7aa;
+            background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 100%);
+        }
+
+        .topic-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .topic-card:hover .topic-icon {
+            transform: scale(1.1);
+        }
+
+        .topic-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 12px;
+            transition: color 0.3s ease;
+        }
+
+        .topic-card:hover .topic-name {
+            color: #c2410c;
+        }
+
+        .topic-description {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 16px;
+            transition: color 0.3s ease;
+        }
+
+        .topic-card:hover .topic-description {
+            color: #374151;
+        }
+
+        .topic-footer {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #f1f5f9;
+            transition: border-color 0.3s ease;
+        }
+
+        .topic-card:hover .topic-footer {
+            border-color: #fed7aa;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #f1f5f9;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #fb923c 0%, #f97316 100%);
+            border-radius: 2px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .topic-card:hover .progress-fill {
+            width: 100%;
+        }
+
+        .explore-text {
+            font-size: 12px;
+            color: #64748b;
+            transition: color 0.3s ease;
+        }
+
+        .topic-card:hover .explore-text {
+            color: #f97316;
+        }
+
+        /* Footer Information */
+        .footer-info {
+            margin-top: 48px;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 32px;
+        }
+
+        .info-grid {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 24px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .info-item h4 {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .info-item p {
+            font-size: 14px;
+            color: #64748b;
+            line-height: 1.5;
+        }
+
+        /* Government Footer */
+        .gov-footer {
+            margin-top: 32px;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            font-size: 14px;
+            color: #64748b;
+            flex-wrap: wrap;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-title {
+                font-size: 20px;
+            }
+
+            .welcome-title {
+                font-size: 28px;
+            }
+
+            .topic-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Navigation Bar */
+        .nav-bar {
+            margin-top: 12px;
+            display: flex;
+            justify-content: space-evenly; /* Equal spacing */
+            align-items: center;
+            background: #0f172a; /* dark strip under header */
+            padding: 12px 0;
+            border-top: 1px solid #334155;
+        }
+
+        /* Nav links equally distributed */
+        .nav-link {
+            flex: 1;                       /* Take equal width */
+            text-align: center;            /* Center text */
+            color: #f1f5f9;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 8px 0;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .nav-link:hover {
+            background: #1e293b;  /* hover background */
+            color: #f97316;       /* orange highlight */
+        }
+
+        /* News Section Styles */
+        .news-section {
+            margin-bottom: 32px;
+        }
+
+        .news-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .news-item {
+            background: white;
+            border-left: 4px solid #f97316;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .news-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .news-date {
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 8px;
+        }
+
+        .news-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        .news-description {
+            font-size: 14px;
+            color: #475569;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+<!-- Government Header -->
+<div class="gov-header-stripe">
+    <div class="gov-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="flag-circle">
+                    <span style="color: #000000; font-weight: bold;">SS</span>
+                </div>
+                <div>
+                    <h1 class="header-title">Smart शिक्षा</h1>
+                </div>
+            </div>
+            <div class="nav-bar">
+                <a href="{{ url_for('home') }}" class="nav-link">HOME</a>
+                <a href="{{ url_for('counselling') }}" class="nav-link">COUNSELLING</a>
+                <a href="{{ url_for('profile') }}" class="nav-link">PROFILE</a>
+                <a href="{{ url_for('coding_practice') }}" class="nav-link">CODING</a>
+                <a href="{{ url_for('logout') }}" class="nav-link">LOGOUT</a>
+                <a href="{{ url_for('leaderboard') }}" class="nav-link">LEADERBOARD</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="main-content">
+        <!-- Welcome Section -->
+        <div class="welcome-card">
+            <div class="badge">
+               शिक्षा पोर्टल | Education Portal
+            </div>
+            <h1 class="welcome-title">
+                Welcome, <span id="studentName">Student</span>! 🙏
+            </h1>
+            <div class="badge-container">
+                <h4>Your Badges:</h4>
+                <div id="badgesList">
+                    <!-- Badges will be injected here -->
+                </div>
+            </div>
+            <p class="welcome-description">
+                डिजिटल इंडिया के तहत व्यक्तिगत शिक्षा यात्रा शुरू करने के लिए एक विषय चुनें
+                <br />
+                <span>Choose a topic to start your personalized learning journey under Digital India</span>
+            </p>
+        </div>
+
+        <!-- Government News Section -->
+        <div class="news-section mb-4">
+            <div class="section-header">
+                <div class="section-divider"></div>
+                <h2 class="section-title">
+                    📰 Latest Government News | ताज़ा सरकारी समाचार
+                </h2>
+            </div>
+
+            <div class="news-container" id="newsContainer">
+                <div class="text-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p>Loading latest news...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Topics Section -->
+        <div class="topics-section">
+            <div class="section-header">
+                <div class="section-divider"></div>
+                <h2 class="section-title">
+                    📚 विषय चयन करें | Select a Learning Topic
+                </h2>
+            </div>
+
+            <div class="topic-grid" id="topicGrid">
+                <!-- Topics will be loaded here by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Footer Information -->
+        <div class="footer-info">
+            <div class="info-grid">
+                <div class="info-item">
+                    <h4>🎯 Mission</h4>
+                    <p>Providing quality digital education to every citizen of India under the Digital India initiative.</p>
+                </div>
+                <div class="info-item">
+                    <h4>🌐 Access</h4>
+                    <p>Free and open educational resources available in multiple Indian languages.</p>
+                </div>
+                <div class="info-item">
+                    <h4>🎓 Excellence</h4>
+                    <p>Aligned with National Education Policy 2020 and CBSE curriculum standards.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Government Footer -->
+        <div class="gov-footer">
+            <div class="footer-links">
+                <span>सत्यमेव जयते | Truth Alone Triumphs</span>
+                <span>|</span>
+                <span>भारत सरकार | Government of India</span>
+                <span>|</span>
+                <span>Digital India Initiative</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const badges = {{ user_badges | tojson }};
+    const container = document.getElementById("badgesList");
+
+    if(badges.length === 0){
+        container.innerHTML = "<p>No badges yet. Earn some by completing activities!</p>";
+    } else {
+        badges.forEach(b => {
+            const span = document.createElement("span");
+            span.className = "badge";
+            span.innerText = b;
+            container.appendChild(span);
+        });
+    }
+</script>
+
+<script>
+    async function loadNews() {
+        try {
+            const response = await fetch('/get_government_news');
+            const result = await response.json();
+
+            const newsContainer = document.getElementById('newsContainer');
+
+            if (result.news && result.news.length > 0) {
+                newsContainer.innerHTML = result.news.map(item => `
+                    <div class="news-item">
+                        <div class="news-date">${item.date}</div>
+                        <h4 class="news-title">${item.title}</h4>
+                        <p class="news-description">${item.description}</p>
+                    </div>
+                `).join('');
+            } else {
+                newsContainer.innerHTML = '<p class="text-muted">No news available at the moment.</p>';
+            }
+        } catch (error) {
+            console.error('Error loading news:', error);
+            document.getElementById('newsContainer').innerHTML = '<p class="text-danger">Failed to load news</p>';
+        }
+    }
+
+    const topics = [
+        { name: 'Mathematics', icon: '🔢', description: 'Algebra, Geometry, Calculus' },
+        { name: 'Science', icon: '🔬', description: 'Physics, Chemistry, Biology' },
+        { name: 'History', icon: '📜', description: 'World History, Ancient Civilizations' },
+        { name: 'Literature', icon: '📖', description: 'Classic Literature, Poetry' },
+        { name: 'Geography', icon: '🌍', description: 'World Geography, Climate' },
+        { name: 'Computer Science', icon: '💻', description: 'Programming, Algorithms' },
+        { name: 'Art', icon: '🎨', description: 'Drawing, Painting, Design' },
+        { name: 'Music', icon: '🎵', description: 'Theory, Instruments, Composition' }
+    ];
+
+    function loadTopics() {
+        const grid = document.getElementById('topicGrid');
+        grid.innerHTML = '';
+
+        topics.forEach(topic => {
+            const topicCard = document.createElement('div');
+            topicCard.className = 'topic-card';
+            topicCard.onclick = () => selectTopic(topic.name);
+
+            topicCard.innerHTML = `
+                <div>
+                    <div class="topic-icon">${topic.icon}</div>
+                    <h3 class="topic-name">${topic.name}</h3>
+                    <p class="topic-description">${topic.description}</p>
+                </div>
+
+                <div class="topic-footer">
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <p class="explore-text">Click to explore</p>
+                </div>
+            `;
+
+            grid.appendChild(topicCard);
+        });
+    }
+
+    async function selectTopic(topicName) {
+        try {
+            const response = await fetch('/set_topic', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ topic: topicName })
+            });
+
+            if (response.ok) {
+                window.location.href = '/options';
+            } else {
+                alert('Failed to set topic');
+            }
+        } catch (error) {
+            alert('Network error');
+        }
+    }
+
+    // Load topics and news when page loads
+    document.addEventListener('DOMContentLoaded', () => {
+        loadTopics();
+        loadNews();
+    });
+</script>
+</body>
+</html>

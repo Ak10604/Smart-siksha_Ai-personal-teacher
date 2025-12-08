@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Learning - {{ topic }}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #fff5f5 0%, #f0f8ff 100%);
+            min-height: 100vh;
+            color: #334155;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        /* Government Header */
+        .gov-header-stripe {
+            background: linear-gradient(90deg, #f97316 0%, #ffffff 50%, #22c55e 100%);
+            padding: 1px 0;
+        }
+
+        .gov-header {
+            background: #1e293b;
+            color: white;
+            padding: 16px 0;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .flag-circle {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(45deg, #f97316 0%, #ffffff 50%, #22c55e 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .header-title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-link {
+            color: #f1f5f9;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover {
+            background: #334155;
+            color: #f97316;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 32px 0;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        /* Compact Info Card */
+        .info-sidebar {
+            position: sticky;
+            top: 88px;
+        }
+
+        .compact-info {
+            background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.15);
+        }
+
+        .compact-cover {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            box-shadow: 0 8px 16px rgba(249, 115, 22, 0.3);
+            margin-bottom: 16px;
+        }
+
+        .compact-category {
+            display: inline-block;
+            background: #f97316;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .compact-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 6px;
+        }
+
+        .compact-subtitle {
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 12px;
+        }
+
+        .compact-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(249, 115, 22, 0.2);
+            margin-bottom: 12px;
+        }
+
+        .meta-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #475569;
+            font-size: 11px;
+        }
+
+        .meta-icon {
+            font-size: 14px;
+        }
+
+        .sidebar-quote {
+            padding-top: 12px;
+            border-top: 1px solid rgba(249, 115, 22, 0.2);
+            text-align: center;
+        }
+
+        .sidebar-quote-icon {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .sidebar-quote-text {
+            font-size: 11px;
+            color: #1e293b;
+            font-style: italic;
+            font-weight: 500;
+            line-height: 1.4;
+            margin-bottom: 4px;
+        }
+
+        .sidebar-quote-author {
+            font-size: 9px;
+            color: #64748b;
+        }
+
+        /* Main Player Area */
+        .player-main {
+            flex: 1;
+        }
+
+        /* Audio Player Card */
+        .player-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            min-height: 500px;
+        }
+
+        .player-header {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            color: white;
+            padding: 24px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .player-title {
+            font-size: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .status-badge {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .player-body {
+            padding: 48px 32px;
+        }
+
+        /* Generate Section */
+        .generate-section {
+            text-align: center;
+            padding: 32px;
+        }
+
+        .audio-visual {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 32px;
+            background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 64px;
+            box-shadow: 0 10px 30px rgba(249, 115, 22, 0.2);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 10px 30px rgba(249, 115, 22, 0.2); }
+            50% { transform: scale(1.05); box-shadow: 0 15px 40px rgba(249, 115, 22, 0.3); }
+        }
+
+        .btn-generate {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            color: white;
+            border: none;
+            padding: 18px 56px;
+            font-size: 18px;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 24px rgba(249, 115, 22, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-generate:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(249, 115, 22, 0.4);
+        }
+
+        .btn-generate:active {
+            transform: translateY(-1px);
+        }
+
+        .generate-description {
+            margin-top: 20px;
+            color: #64748b;
+            font-size: 15px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Loading Section */
+        .loading-section {
+            text-align: center;
+            padding: 64px 32px;
+        }
+
+        .loading-visual {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 32px;
+            position: relative;
+        }
+
+        .spinner-ring {
+            width: 100px;
+            height: 100px;
+            border: 6px solid #fed7aa;
+            border-top: 6px solid #f97316;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        .loading-subtext {
+            color: #64748b;
+            font-size: 15px;
+        }
+
+        /* Audio Player Section */
+        .audio-ready {
+            padding: 0;
+        }
+
+        .success-alert {
+            background: linear-gradient(135deg, #dcfce7 0%, #d1fae5 100%);
+            border-left: 4px solid #22c55e;
+            color: #166534;
+            padding: 20px 32px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            margin-bottom: 32px;
+        }
+
+        .player-container {
+            background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%);
+            padding: 32px;
+            border-radius: 12px;
+            margin: 32px;
+        }
+
+        .now-playing {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 24px;
+            padding-bottom: 24px;
+            border-bottom: 2px solid rgba(249, 115, 22, 0.2);
+        }
+
+        .vinyl-spinning {
+            width: 80px;
+            height: 80px;
+            font-size: 80px;
+            animation: rotate 3s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .track-info h3 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+
+        .track-info p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        audio {
+            width: 100%;
+            height: 56px;
+            border-radius: 12px;
+            outline: none;
+        }
+
+        /* Transcript Section */
+        .transcript-section {
+            margin: 32px;
+        }
+
+        .transcript-card {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .transcript-header {
+            background: white;
+            padding: 20px 24px;
+            border-bottom: 2px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .transcript-header h4 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .transcript-body {
+            padding: 24px;
+            max-height: 400px;
+            overflow-y: auto;
+            line-height: 1.9;
+            color: #334155;
+            font-size: 15px;
+        }
+
+        .transcript-body::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .transcript-body::-webkit-scrollbar-track {
+            background: #e2e8f0;
+        }
+
+        .transcript-body::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        .transcript-body::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Peaceful Quote Section */
+        .peace-quote {
+            display: none;
+        }
+
+        .quote-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .quote-text {
+            font-size: 20px;
+            color: #1e293b;
+            font-style: italic;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .quote-author {
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        .d-none {
+            display: none !important;
+        }
+
+        /* Alert */
+        .alert {
+            padding: 16px 24px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .alert-success {
+            background: #dcfce7;
+            border: 2px solid #86efac;
+            color: #166534;
+        }
+
+        .alert-danger {
+            background: #fee2e2;
+            border: 2px solid #fca5a5;
+            color: #991b1b;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .info-sidebar {
+                position: relative;
+                top: 0;
+            }
+
+            .player-body {
+                padding: 32px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Government Header -->
+    <div class="gov-header-stripe"></div>
+    <div class="gov-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-left">
+                    <div class="flag-circle">
+                        <span style="color: #000000; font-weight: bold;">SS</span>
+                    </div>
+                    <h1 class="header-title">Smart शिक्षा - Audiobook</h1>
+                </div>
+                <div class="nav-links">
+                    <a href="{{ url_for('options') }}" class="nav-link">← Back</a>
+                    <a href="{{ url_for('home') }}" class="nav-link">Home</a>
+                    <a href="{{ url_for('profile') }}" class="nav-link">Profile</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="main-content">
+            <!-- Compact Info Sidebar -->
+            <div class="info-sidebar">
+                <div class="compact-info">
+                    <div class="compact-cover">🎧</div>
+                    <div class="compact-category">Educational Audiobook</div>
+                    <h2 class="compact-title">{{ topic }}</h2>
+                    <p class="compact-subtitle">AI-Generated Learning Experience</p>
+                    <div class="compact-meta">
+                        <div class="meta-row">
+                            <span class="meta-icon">⏱️</span>
+                            <span>5-10 min</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-icon">🎵</span>
+                            <span>MP3 Audio</span>
+                        </div>
+                        <div class="meta-row">
+                            <span class="meta-icon">🤖</span>
+                            <span>AI Narrated</span>
+                        </div>
+                    </div>
+                    <div class="sidebar-quote">
+                        <div class="sidebar-quote-icon">📚</div>
+                        <p class="sidebar-quote-text">"Listen, Learn, and Let Knowledge Flow"</p>
+                        <p class="sidebar-quote-author">— Your Journey to Peaceful Learning</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Player Area -->
+            <div class="player-main">
+                <div class="player-card">
+                <div class="player-header">
+                    <div class="player-title">
+                        <span>🎵</span>
+                        <span>Audio Player</span>
+                    </div>
+                    <div class="status-badge" id="statusBadge">Ready</div>
+                </div>
+                <div class="player-body">
+                    <!-- Generate Section -->
+                    <div id="generateSection" class="generate-section">
+                        <div class="audio-visual">🎙️</div>
+                        <button class="btn-generate" onclick="generateAudioNotes()">
+                            Generate Audiobook
+                        </button>
+                        <p class="generate-description">
+                            Click to create your personalized audio learning experience with AI-powered narration
+                        </p>
+                    </div>
+
+                    <!-- Loading Section -->
+                    <div id="loadingSection" class="loading-section d-none">
+                        <div class="loading-visual">
+                            <div class="spinner-ring"></div>
+                        </div>
+                        <p class="loading-text">Generating Audiobook...</p>
+                        <p class="loading-subtext">Creating your personalized audio content</p>
+                    </div>
+
+                    <!-- Audio Player Section -->
+                    <div id="audioControls" class="audio-ready d-none">
+                        <div class="success-alert">
+                            <span style="font-size: 24px;">✓</span>
+                            <span>Your audiobook is ready to play!</span>
+                        </div>
+
+                        <div class="player-container">
+                            <div class="now-playing">
+                                <div class="vinyl-spinning">💿</div>
+                                <div class="track-info">
+                                    <h3>{{ topic }} - Audio Notes</h3>
+                                    <p>Now Playing</p>
+                                </div>
+                            </div>
+                            <audio id="audioPlayer" controls>
+                                <source id="audioSource" src="" type="audio/mpeg">
+                                Your browser does not support the audio element.
+                            </audio>
+                        </div>
+
+                        <div class="transcript-section">
+                            <div class="transcript-card">
+                                <div class="transcript-header">
+                                    <span style="font-size: 24px;">📄</span>
+                                    <h4>Complete Transcript</h4>
+                                </div>
+                                <div id="notesText" class="transcript-body">
+                                    <!-- Transcript will appear here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Peaceful Learning Quote (Bottom) -->
+        </div>
+    </div>
+
+    <script>
+        async function generateAudioNotes() {
+            const generateSection = document.getElementById('generateSection');
+            const loadingSection = document.getElementById('loadingSection');
+            const audioControls = document.getElementById('audioControls');
+            const statusBadge = document.getElementById('statusBadge');
+
+            generateSection.classList.add('d-none');
+            loadingSection.classList.remove('d-none');
+            statusBadge.textContent = 'Generating...';
+            statusBadge.style.background = 'rgba(249, 115, 22, 0.2)';
+            statusBadge.style.color = '#f97316';
+
+            try {
+                const response = await fetch('/generate_audio_notes', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                    loadingSection.classList.add('d-none');
+                    audioControls.classList.remove('d-none');
+
+                    const audioSource = document.getElementById('audioSource');
+                    const audioPlayer = document.getElementById('audioPlayer');
+                    audioSource.src = result.audio_url;
+                    audioPlayer.load();
+
+                    document.getElementById('notesText').textContent = result.notes_text;
+
+                    statusBadge.textContent = 'Playing';
+                    statusBadge.style.background = 'rgba(34, 197, 94, 0.2)';
+                    statusBadge.style.color = '#22c55e';
+
+                    showMessage('Audiobook generated successfully!', 'success');
+                } else {
+                    throw new Error(result.message || 'Failed to generate audio');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                loadingSection.classList.add('d-none');
+                generateSection.classList.remove('d-none');
+                statusBadge.textContent = 'Error';
+                statusBadge.style.background = 'rgba(239, 68, 68, 0.2)';
+                statusBadge.style.color = '#ef4444';
+                showMessage('Failed to generate audiobook. Please try again.', 'error');
+            }
+        }
+
+        function showMessage(message, type) {
+            const alertClass = type === 'error' ? 'alert-danger' : 'alert-success';
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert ${alertClass}`;
+            alertDiv.textContent = message;
+            
+            const content = document.querySelector('.main-content');
+            content.insertBefore(alertDiv, content.firstChild);
+            
+            setTimeout(() => alertDiv.remove(), 5000);
+        }
+    </script>
+</body>
+</html>

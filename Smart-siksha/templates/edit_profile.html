@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Government of India - Digital Profile Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Indian Government Colors */
+            --india-saffron: #FF9933;
+            --india-white: #FFFFFF;
+            --india-green: #138808;
+            --india-navy: #000080;
+            --india-chakra-blue: #000080;
+            
+            /* Professional Government Palette */
+            --gov-primary: #000080;
+            --gov-primary-light: #1e40af;
+            --gov-secondary: #138808;
+            --gov-accent: #FF9933;
+            --gov-background: #fafafa;
+            --gov-surface: #ffffff;
+            --gov-border: #e0e7ff;
+            --gov-text: #1a202c;
+            --gov-text-secondary: #4a5568;
+            --gov-success: #138808;
+            --gov-shadow: rgba(0, 0, 128, 0.1);
+            --gov-shadow-hover: rgba(0, 0, 128, 0.2);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fafafa 0%, #f0f7ff 50%, #fafafa 100%);
+            color: var(--gov-text);
+            min-height: 100vh;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        /* Indian Flag Header Strip */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(to right, var(--india-saffron) 33.33%, var(--india-white) 33.33%, var(--india-white) 66.66%, var(--india-green) 66.66%);
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            padding-top: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .form-wrapper {
+            width: 100%;
+            max-width: 44rem;
+            position: relative;
+        }
+
+        /* Government Emblem */
+        .gov-emblem {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .emblem-container {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--india-white) 0%, #f8faff 100%);
+            border: 2px solid var(--gov-primary);
+            border-radius: 2rem;
+            box-shadow: 0 4px 6px var(--gov-shadow);
+        }
+
+        .ashoka-chakra {
+            width: 2.5rem;
+            height: 2.5rem;
+            border: 3px solid var(--india-chakra-blue);
+            border-radius: 50%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ashoka-chakra::before {
+            content: '☸';
+            font-size: 1.5rem;
+            color: var(--india-chakra-blue);
+        }
+
+        .gov-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--gov-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-card {
+            background: var(--gov-surface);
+            border-radius: 1rem;
+            box-shadow: 
+                0 10px 25px -5px var(--gov-shadow),
+                0 20px 25px -5px rgba(0, 0, 128, 0.04);
+            border: 2px solid var(--gov-border);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .form-card:hover {
+            box-shadow: 
+                0 20px 35px -5px var(--gov-shadow-hover),
+                0 25px 30px -5px rgba(0, 0, 128, 0.06);
+            transform: translateY(-3px);
+        }
+
+        /* Tricolor accent strip */
+        .form-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(to right, var(--india-saffron) 33.33%, var(--india-white) 33.33%, var(--india-white) 66.66%, var(--india-green) 66.66%);
+        }
+
+        .header {
+            padding: 2.5rem 3rem 2rem;
+            border-bottom: 2px solid var(--gov-border);
+            background: linear-gradient(135deg, #fefefe 0%, #f8faff 100%);
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 3rem;
+            right: 3rem;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--gov-primary), transparent);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .header-icon {
+            width: 4rem;
+            height: 4rem;
+            background: linear-gradient(135deg, var(--gov-primary) 0%, var(--india-navy) 100%);
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            box-shadow: 
+                0 6px 12px -2px rgba(0, 0, 128, 0.3),
+                0 0 20px rgba(255, 153, 51, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-icon::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+        }
+
+        .form-card:hover .header-icon {
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 
+                0 8px 16px -2px rgba(0, 0, 128, 0.4),
+                0 0 25px rgba(255, 153, 51, 0.3);
+        }
+
+        .form-card:hover .header-icon::before {
+            transform: rotate(45deg) translate(50%, 50%);
+        }
+
+        .header-text h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--gov-primary);
+            margin-bottom: 0.5rem;
+            text-shadow: 0 1px 2px rgba(0, 0, 128, 0.1);
+        }
+
+        .header-text p {
+            font-size: 1rem;
+            color: var(--gov-text-secondary);
+            font-weight: 500;
+        }
+
+        .digital-india-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, var(--india-saffron) 0%, #ff7700 100%);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-body {
+            padding: 3rem;
+        }
+
+        .success-alert {
+            margin-bottom: 2rem;
+            padding: 1.25rem 1.5rem;
+            background: linear-gradient(135deg, #f0fff4 0%, #dcfce7 100%);
+            border: 2px solid var(--india-green);
+            border-radius: 0.75rem;
+            display: none;
+            animation: slideDown 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .success-alert::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--india-green);
+        }
+
+        .success-alert.show {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .success-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .success-icon {
+            width: 2rem;
+            height: 2rem;
+            background: var(--india-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1rem;
+            box-shadow: 0 4px 8px rgba(19, 136, 8, 0.3);
+        }
+
+        .success-text {
+            font-weight: 600;
+            color: #166534;
+        }
+
+        .form-section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--gov-primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--gov-border);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 0.75rem;
+            height: 0.75rem;
+            background: linear-gradient(135deg, var(--india-saffron) 0%, var(--india-green) 100%);
+            border-radius: 50%;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-label {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 600;
+            color: var(--gov-text);
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+        }
+
+        .label-indicator {
+            width: 0.5rem;
+            height: 0.5rem;
+            background: linear-gradient(135deg, var(--india-saffron) 0%, var(--india-green) 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 6px rgba(255, 153, 51, 0.4);
+        }
+
+        .required-asterisk {
+            color: var(--india-saffron);
+            font-weight: 700;
+            margin-left: 0.25rem;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            border: 2px solid var(--gov-border);
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            background: var(--gov-surface);
+            transition: all 0.3s ease;
+            outline: none;
+            font-weight: 500;
+        }
+
+        .form-input select {
+            cursor: pointer;
+        }
+
+        .form-input option {
+            background: var(--gov-surface);
+            color: var(--gov-text);
+            padding: 0.5rem;
+        }
+
+        .form-input:hover {
+            border-color: var(--gov-primary);
+            box-shadow: 0 4px 8px rgba(0, 0, 128, 0.1);
+            background: #fafcff;
+        }
+
+        .form-input:focus {
+            border-color: var(--india-saffron);
+            box-shadow: 
+                0 0 0 4px rgba(255, 153, 51, 0.1),
+                0 4px 12px rgba(0, 0, 128, 0.15);
+            background: var(--india-white);
+        }
+
+        .form-input::placeholder {
+            color: #9ca3af;
+            font-weight: 400;
+        }
+
+        .interests-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin-top: 0.75rem;
+        }
+
+        .interest-item {
+            position: relative;
+        }
+
+        .interest-label {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            border: 2px solid var(--gov-border);
+            border-radius: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--gov-surface);
+            font-weight: 600;
+            font-size: 0.95rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .interest-label::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 153, 51, 0.1), transparent);
+            transition: all 0.6s ease;
+        }
+
+        .interest-label:hover {
+            border-color: var(--gov-primary);
+            box-shadow: 0 4px 12px rgba(0, 0, 128, 0.15);
+            background: linear-gradient(135deg, #fafcff 0%, #f0f7ff 100%);
+            transform: translateY(-2px);
+        }
+
+        .interest-label:hover::before {
+            left: 100%;
+        }
+
+        .interest-checkbox {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .checkbox-custom {
+            width: 1.25rem;
+            height: 1.25rem;
+            border: 2px solid var(--gov-border);
+            border-radius: 0.375rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            background: var(--gov-surface);
+        }
+
+        .checkbox-icon {
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.3s ease;
+            color: white;
+            font-size: 0.875rem;
+        }
+
+        .interest-checkbox:checked + .interest-label {
+            border-color: var(--india-green);
+            background: linear-gradient(135deg, #f0fff4 0%, #dcfce7 100%);
+            color: var(--gov-text);
+            box-shadow: 0 6px 16px rgba(19, 136, 8, 0.2);
+        }
+
+        .interest-checkbox:checked + .interest-label .checkbox-custom {
+            background: linear-gradient(135deg, var(--india-green) 0%, #059669 100%);
+            border-color: var(--india-green);
+            box-shadow: 0 0 12px rgba(19, 136, 8, 0.3);
+        }
+
+        .interest-checkbox:checked + .interest-label .checkbox-icon {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: flex-end;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 0.75rem;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            min-width: 140px;
+            justify-content: center;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.6s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:active {
+            transform: translateY(2px);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, var(--gov-surface) 0%, #f8fafc 100%);
+            color: var(--gov-text);
+            border: 2px solid var(--gov-border);
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-color: var(--gov-primary);
+            box-shadow: 0 6px 16px rgba(0, 0, 128, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gov-primary) 0%, var(--india-navy) 50%, var(--gov-primary) 100%);
+            color: white;
+            box-shadow: 
+                0 6px 16px -2px rgba(0, 0, 128, 0.4),
+                0 0 20px rgba(255, 153, 51, 0.2);
+            border: 2px solid var(--gov-primary);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--india-navy) 0%, var(--gov-primary) 50%, var(--india-navy) 100%);
+            box-shadow: 
+                0 10px 25px -2px rgba(0, 0, 128, 0.5),
+                0 0 30px rgba(255, 153, 51, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .btn-icon {
+            width: 1.125rem;
+            height: 1.125rem;
+        }
+
+        /* Government Footer */
+        .gov-footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1rem;
+            font-size: 0.875rem;
+            color: var(--gov-text-secondary);
+            border-top: 1px solid var(--gov-border);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+                padding-top: 2rem;
+            }
+            
+            .header {
+                padding: 2rem 2rem 1.5rem;
+            }
+            
+            .form-body {
+                padding: 2rem;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .interests-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+
+            .emblem-container {
+                padding: 0.75rem 1.5rem;
+                gap: 0.75rem;
+            }
+
+            .gov-title {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-wrapper">
+            <!-- Government Emblem -->
+            <div class="gov-emblem">
+                <div class="emblem-container">
+                    <div class="ashoka-chakra"></div>
+                    <div class="gov-title">Government of India<br>Digital Services Portal</div>
+                </div>
+            </div>
+
+            <div class="form-card">
+                <div class="header">
+                    <div class="header-content">
+                        <div class="header-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 4V6C15 7.1 14.1 8 13 8S11 7.1 11 6V4L5 7V9C5 10.1 4.1 11 3 11S1 10.1 1 9V7C1 6.4 1.4 6 2 6L8 3C8.6 2.7 9.4 2.7 10 3L16 6C16.6 6.3 17 6.9 17 7.5V9C17 10.1 16.1 11 15 11S13 10.1 13 9ZM7 12H17C18.1 12 19 12.9 19 14V20C19 21.1 18.1 22 17 22H7C5.9 22 5 21.1 5 20V14C5 12.9 5.9 12 7 12Z"/>
+                            </svg>
+                        </div>
+                        <div class="header-text">
+                            <h1>Edit Profile</h1>
+                            <p>Update your citizen information securely</p>
+                            <div class="digital-india-badge">
+                                <span>🇮🇳</span>
+                                Digital India Initiative
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-body">
+                    <div id="successAlert" class="success-alert">
+                        <div class="success-content">
+                            <div class="success-icon">
+                                <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <div class="success-text">Profile Updated Successfully!</div>
+                                <div style="font-size: 0.875rem; color: #166534; margin-top: 0.25rem;">Your information has been securely saved to the government database.</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <form id="profileForm">
+                        <!-- Personal Information Section -->
+                        <div class="form-section">
+                            <h3 class="section-title">Personal Information</h3>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="name" class="form-label">
+                                        <span class="label-indicator"></span>
+                                        Full Name (as per Aadhaar)
+                                        <span class="required-asterisk">*</span>
+                                    </label>
+                                    <div class="input-wrapper">
+                                        <input 
+                                            type="text" 
+                                            id="name" 
+                                            name="name" 
+                                            class="form-input"
+                                            placeholder="Enter your full legal name as per Aadhaar card"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="email" class="form-label">
+                                        <span class="label-indicator"></span>
+                                        Email Address
+                                        <span class="required-asterisk">*</span>
+                                    </label>
+                                    <div class="input-wrapper">
+                                        <input 
+                                            type="email" 
+                                            id="email" 
+                                            name="email" 
+                                            class="form-input"
+                                            placeholder="Enter your official email address"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="user_class" class="form-label">
+                                        <span class="label-indicator"></span>
+                                        Class/Grade
+                                        <span class="required-asterisk">*</span>
+                                    </label>
+                                    <div class="input-wrapper">
+                                        <input 
+                                            type="text" 
+                                            id="user_class" 
+                                            name="user_class" 
+                                            class="form-input"
+                                            placeholder="e.g., Class 10, Grade 12, Bachelor's, Master's"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="gender" class="form-label">
+                                        <span class="label-indicator"></span>
+                                        Gender
+                                        <span class="required-asterisk">*</span>
+                                    </label>
+                                    <div class="input-wrapper">
+                                        <select 
+                                            id="gender" 
+                                            name="gender" 
+                                            class="form-input"
+                                        >
+                                            <option value="">Select Gender</option>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                            <option value="Other">Other</option>
+                                            <option value="Prefer not to say">Prefer not to say</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phone" class="form-label">
+                                    <span class="label-indicator"></span>
+                                    Phone Number
+                                    <span class="required-asterisk">*</span>
+                                </label>
+                                <div class="input-wrapper">
+                                    <input 
+                                        type="tel" 
+                                        id="phone" 
+                                        name="phone" 
+                                        class="form-input"
+                                        placeholder="+91 XXXXX XXXXX"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                         <!-- Interests Section -->
+                        <div class="form-section">
+                            <h3 class="section-title">
+                                Interests
+                            </h3>
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <span class="label-indicator"></span>
+                                    Areas of Interest
+                                </label>
+                                <div class="interests-grid">
+                                    <div class="interest-item">
+                                        <input type="checkbox" id="interest-Science" name="interests" value="Science" class="interest-checkbox">
+                                        <label for="interest-Science" class="interest-label">
+                                            <div class="checkbox-custom">
+                                                <svg class="checkbox-icon" width="14" height="14" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </div>
+                                            <span>Science & Research</span>
+                                        </label>
+                                    </div>
+                                     <div class="interest-item">
+                                        <input type="checkbox" id="interest-Technology" name="interests" value="Technology" class="interest-checkbox">
+                                        <label for="interest-Technology" class="interest-label">
+                                            <div class="checkbox-custom">
+                                                <svg class="checkbox-icon" width="14" height="14" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </div>
+                                            <span>Technology & Digital</span>
+                                        </label>
+                                    </div>
+                                    <div class="interest-item">
+                                        <input type="checkbox" id="interest-finance" name="interests" value="finance" class="interest-checkbox">
+                                        <label for="interest-finance" class="interest-label">
+                                            <div class="checkbox-custom">
+                                                <svg class="checkbox-icon" width="14" height="14" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </div>
+                                            <span>Finance & economics</span>
+                                        </label>
+                                    </div>
+                                    <div class="interest-item">
+                                        <input type="checkbox" id="interest-Arts" name="interests" value="Arts" class="interest-checkbox">
+                                        <label for="interest-Arts" class="interest-label">
+                                            <div class="checkbox-custom">
+                                                <svg class="checkbox-icon" width="14" height="14" viewBox="0 0 20 20" fill="currentColor">
+                                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                                </svg>
+                                            </div>
+                                            <span>Arts & Culture</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span class="label-indicator"></span>
+                                Areas You Enjoy
+                            </label>
+                            <div class="interests-grid">
+                                <div class="interest-item">
+                                    <input type="checkbox" id="interest-Science" name="interests" value="Science" class="interest-checkbox">
+                                    <label for="interest-Science" class="interest-label">
+                                        <div class="checkbox-custom">
+                                            <svg class="checkbox-icon" width="14" height="14" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                            </svg>
+                                        </div>
+                                        <span>E - Sports</span>
+                                    </label>
+                                </div>
+                                
+                                <div class="interest-item">
+                                    <input type="checkbox" id="interest-Technology" name="interests" value="Technology" class="interest-checkbox">
+                                    <label for="interest-Technology" class="interest-label">
+                                        <div class="checkbox-custom">
+                                            <svg class="checkbox-icon" width="14" height="14" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                            </svg>
+                                        </div>
+                                        <span>Cinema/Cartoons</span>
+                                    </label>
+                                </div>
+                                
+                                <div class="interest-item">
+                                    <input type="checkbox" id="interest-History" name="interests" value="History" class="interest-checkbox">
+                                    <label for="interest-History" class="interest-label">
+                                        <div class="checkbox-custom">
+                                            <svg class="checkbox-icon" width="14" height="14" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                            </svg>
+                                        </div>
+                                        <span>Motor Vehicles</span>
+                                    </label>
+                                </div>
+                                
+                                <div class="interest-item">
+                                    <input type="checkbox" id="interest-Art" name="interests" value="Art" class="interest-checkbox">
+                                    <label for="interest-Art" class="interest-label">
+                                        <div class="checkbox-custom">
+                                            <svg class="checkbox-icon" width="14" height="14" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                            </svg>
+                                        </div>
+                                        <span>Dance/Music</span>
+                                    </label>
+                                </div>
+                                
+                                <div class="interest-item">
+                                    <input type="checkbox" id="interest-Music" name="interests" value="Music" class="interest-checkbox">
+                                    <label for="interest-Music" class="interest-label">
+                                        <div class="checkbox-custom">
+                                            <svg class="checkbox-icon" width="14" height="14" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                            </svg>
+                                        </div>
+                                        <span>Toys</span>
+                                    </label>
+                                </div>
+                                <div class="interest-item">
+                                    <input type="checkbox" id="interest-Music" name="interests" value="Music" class="interest-checkbox">
+                                    <label for="interest-Music" class="interest-label">
+                                        <div class="checkbox-custom">
+                                            <svg class="checkbox-icon" width="14" height="14" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                            </svg>
+                                        </div>
+                                        <span>Candy/Sweets</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="button-group">
+                            <button type="button" id="cancelBtn" class="btn btn-secondary">
+                                <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                                Cancel
+                            </button>
+                            
+                            <button type="submit" class="btn btn-primary">
+                                <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                Save Changes
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="gov-footer">
+                        <p>🇮🇳 Secured by Government of India | Digital India Initiative | राष्ट्रीय सूचना विज्ञान केंद्र</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // State management - keeping exact same logic as React component
+        let formData = {
+            name: '',
+            email: '',
+            user_class: '',
+            gender: '',
+            phone: '',
+            interests: []
+        };
+        
+        let success = false;
+        
+        const allInterests = ['Science', 'Technology', 'History', 'Art', 'Music'];
+        
+        // DOM elements
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const classInput = document.getElementById('user_class');
+        const genderSelect = document.getElementById('gender');
+        const phoneInput = document.getElementById('phone');
+        const successAlert = document.getElementById('successAlert');
+        const profileForm = document.getElementById('profileForm');
+        const cancelBtn = document.getElementById('cancelBtn');
+        
+        // Handle input change - exact same logic as React handleInputChange
+        function handleInputChange(e) {
+            const { name, value } = e.target;
+            formData = {
+                ...formData,
+                [name]: value
+            };
+        }
+        
+        // Handle interest change - exact same logic as React handleInterestChange
+        function handleInterestChange(interest) {
+            formData = {
+                ...formData,
+                interests: formData.interests.includes(interest)
+                    ? formData.interests.filter(i => i !== interest)
+                    : [...formData.interests, interest]
+            };
+        }
+        
+        // Handle form submit - exact same logic as React handleSubmit
+        function handleSubmit(e) {
+            e.preventDefault();
+            success = true;
+            successAlert.classList.add('show');
+            setTimeout(() => {
+                success = false;
+                successAlert.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Handle cancel - exact same logic as React handleCancel
+        function handleCancel() {
+            console.log('Cancel clicked');
+        }
+        
+        // Event listeners
+        nameInput.addEventListener('input', handleInputChange);
+        emailInput.addEventListener('input', handleInputChange);
+        classInput.addEventListener('input', handleInputChange);
+        genderSelect.addEventListener('change', handleInputChange);
+        phoneInput.addEventListener('input', handleInputChange);
+        profileForm.addEventListener('submit', handleSubmit);
+        cancelBtn.addEventListener('click', handleCancel);
+        
+        // Add event listeners for checkboxes
+        allInterests.forEach(interest => {
+            const checkbox = document.getElementById(`interest-${interest}`);
+            checkbox.addEventListener('change', () => handleInterestChange(interest));
+        });
+    </script>
+</body>
+</html>

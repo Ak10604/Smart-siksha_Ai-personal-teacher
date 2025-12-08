@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz - {{ topic }}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Times New Roman', Georgia, serif;
+            background: linear-gradient(135deg, #fff5f5 0%, #f0f8ff 100%);
+            min-height: 100vh;
+            color: #1e293b;
+        }
+
+        /* Government Header */
+        .gov-header-stripe {
+            background: linear-gradient(90deg, #f97316 0%, #ffffff 50%, #22c55e 100%);
+            padding: 1px 0;
+        }
+
+        .gov-header {
+            background: #1e293b;
+            color: white;
+            padding: 10px 0;
+        }
+
+        .header-content {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .flag-circle {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(45deg, #f97316 0%, #ffffff 50%, #22c55e 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .header-title {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 6px;
+        }
+
+        .nav-link {
+            color: #f1f5f9;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover {
+            background: #334155;
+            color: #f97316;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 16px 20px;
+        }
+
+        /* Paper Container */
+        .paper {
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+            margin-bottom: 16px;
+        }
+
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            padding: 16px 20px;
+            border-bottom: 3px double #1e293b;
+            margin-bottom: 0;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1e293b;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .page-subtitle {
+            font-size: 13px;
+            color: #64748b;
+            font-style: italic;
+        }
+
+        .topic-line {
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .topic-label {
+            font-size: 12px;
+            color: #64748b;
+            font-weight: normal;
+        }
+
+        .topic-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #a16207;
+        }
+
+        /* Info Sections */
+        .info-section {
+            padding: 12px 20px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 13px;
+        }
+
+        .info-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .info-title {
+            font-weight: 600;
+            color: #1e293b;
+            font-size: 14px;
+        }
+
+        .toggle-btn {
+            background: none;
+            border: none;
+            color: #a16207;
+            cursor: pointer;
+            font-size: 11px;
+            padding: 4px 8px;
+            font-weight: 600;
+        }
+
+        .toggle-btn:hover {
+            text-decoration: underline;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 8px;
+            background: #fefce8;
+            border: 1px solid #fef3c7;
+            border-radius: 4px;
+        }
+
+        .stat-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: #a16207;
+        }
+
+        .stat-label {
+            font-size: 10px;
+            color: #64748b;
+            margin-top: 2px;
+        }
+
+        /* History Grid */
+        .history-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .history-item {
+            padding: 8px;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            font-size: 11px;
+        }
+
+        .history-item.excellent {
+            background: #f0fdf4;
+            border-color: #86efac;
+        }
+
+        .history-item.good {
+            background: #fff7ed;
+            border-color: #fdba74;
+        }
+
+        .history-item.needs-work {
+            background: #fef2f2;
+            border-color: #fca5a5;
+        }
+
+        .history-score {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .history-item.excellent .history-score {
+            color: #16a34a;
+        }
+
+        .history-item.good .history-score {
+            color: #ea580c;
+        }
+
+        .history-item.needs-work .history-score {
+            color: #dc2626;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 8px 16px;
+            border-radius: 4px;
+            border: 1px solid #1e293b;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-block;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .btn-primary {
+            background: #1e293b;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0f172a;
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #1e293b;
+        }
+
+        .btn-secondary:hover {
+            background: #f8fafc;
+        }
+
+        /* Generate Section */
+        .generate-section {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .generate-section p {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        /* Loading */
+        .loading-section {
+            text-align: center;
+            padding: 24px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #fef3c7;
+            border-top: 3px solid #eab308;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 12px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        /* Question Section */
+        .question-section {
+            padding: 16px 20px;
+        }
+
+        .question-item {
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .question-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .question-header {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .question-number {
+            font-weight: bold;
+            color: #1e293b;
+            font-size: 14px;
+            min-width: 24px;
+        }
+
+        .question-text {
+            font-size: 14px;
+            color: #1e293b;
+            line-height: 1.5;
+            flex: 1;
+        }
+
+        .options-list {
+            margin-left: 34px;
+            margin-top: 8px;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: baseline;
+            margin-bottom: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 2px;
+        }
+
+        .option-item:hover {
+            background: #fefce8;
+        }
+
+        .option-item input[type="radio"] {
+            margin-right: 8px;
+            accent-color: #a16207;
+        }
+
+        .option-letter {
+            font-weight: 600;
+            margin-right: 6px;
+            color: #1e293b;
+        }
+
+        /* Submit Section */
+        .submit-section {
+            text-align: center;
+            padding: 16px 20px;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        /* Results */
+        .results-section {
+            padding: 20px;
+        }
+
+        .results-header {
+            text-align: center;
+            padding: 16px;
+            background: #f8fafc;
+            border: 2px solid #1e293b;
+            margin-bottom: 16px;
+        }
+
+        .results-score {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .results-score.excellent {
+            color: #16a34a;
+        }
+
+        .results-score.good {
+            color: #ea580c;
+        }
+
+        .results-score.needs-work {
+            color: #dc2626;
+        }
+
+        .results-message {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .answer-review {
+            margin-top: 12px;
+        }
+
+        .answer-item {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .answer-item.correct {
+            background: #f0fdf4;
+            border-color: #86efac;
+        }
+
+        .answer-item.incorrect {
+            background: #fef2f2;
+            border-color: #fca5a5;
+        }
+
+        .answer-q {
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #1e293b;
+        }
+
+        .answer-detail {
+            font-size: 11px;
+            margin-bottom: 3px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Alert */
+        .alert {
+            padding: 12px;
+            margin: 12px 20px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .alert-secondary {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            color: #475569;
+        }
+
+        .alert-danger {
+            background: #fef2f2;
+            border: 1px solid #fca5a5;
+            color: #991b1b;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .stats-grid,
+            .history-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .question-number {
+                min-width: 20px;
+            }
+
+            .options-list {
+                margin-left: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Government Header -->
+    <div class="gov-header-stripe"></div>
+    <div class="gov-header">
+        <div class="header-content">
+            <div class="header-left">
+                <div class="flag-circle">
+                    <span style="color: #000000; font-weight: bold;">SS</span>
+                </div>
+                <h1 class="header-title">Smart शिक्षा - Quiz</h1>
+            </div>
+            <div class="nav-links">
+                <a href="{{ url_for('options') }}" class="nav-link">← Back</a>
+                <a href="{{ url_for('home') }}" class="nav-link">Home</a>
+                <a href="{{ url_for('profile') }}" class="nav-link">Profile</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Main Paper -->
+        <div class="paper">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1 class="page-title">Examination Paper</h1>
+                <p class="page-subtitle">Test your knowledge and understanding</p>
+                <div class="topic-line">
+                    <span class="topic-label">Subject:</span>
+                    <span class="topic-value">{{ topic }}</span>
+                </div>
+            </div>
+
+            <!-- Last Quiz Section -->
+            {% if last_quiz.has_quiz %}
+            <div class="info-section">
+                <div class="info-header">
+                    <div class="info-title">Previous Attempt</div>
+                </div>
+                {% if last_quiz.completed_at %}
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-value">{{ last_quiz.score }}/{{ last_quiz.total_questions }}</div>
+                            <div class="stat-label">Score</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">{{ "%.0f"|format(last_quiz.percentage) }}%</div>
+                            <div class="stat-label">Percentage</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">{{ last_quiz.completed_at }}</div>
+                            <div class="stat-label">Completed</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 8px;">
+                        <button id="load-last-quiz-btn" class="btn btn-secondary">View Last Quiz</button>
+                    </div>
+                {% else %}
+                    <p style="color: #64748b; font-size: 12px; margin-bottom: 8px;">You have an incomplete quiz.</p>
+                    <button id="load-last-quiz-btn" class="btn btn-primary">Continue Quiz</button>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            <!-- Quiz History Section -->
+            <div class="info-section">
+                <div class="info-header">
+                    <div class="info-title">Performance History</div>
+                    <button id="toggle-history-btn" class="toggle-btn">Show</button>
+                </div>
+                <div id="quiz-history" class="hidden">
+                    <div id="saved-quizzes-container">
+                        <p style="color: #64748b; font-size: 12px;">Loading...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Generate Section -->
+            <div class="generate-section">
+                <button id="generate-btn" class="btn btn-primary">Generate New Quiz</button>
+                <p>Click to generate 10 questions about {{ topic }}</p>
+            </div>
+
+            <!-- Loading Indicator -->
+            <div id="loading" class="loading-section hidden">
+                <div class="spinner"></div>
+                <p class="loading-text">Generating quiz questions...</p>
+            </div>
+
+            <!-- Quiz Questions -->
+            <div id="quiz-container"></div>
+
+            <!-- Submit Button -->
+            <div id="submit-section" class="submit-section hidden">
+                <button id="submit-btn" class="btn btn-primary">Submit Answers</button>
+            </div>
+
+            <!-- Results -->
+            <div id="result-container" class="hidden"></div>
+        </div>
+    </div>
+
+    <script>
+        let quizData = [];
+        let currentTopic = "{{ topic }}";
+        let lastQuizData = {{ last_quiz|tojson }};
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSavedQuizzes();
+            
+            if (lastQuizData.has_quiz && !lastQuizData.completed_at) {
+                loadLastQuiz();
+            }
+        });
+
+        document.getElementById("toggle-history-btn").addEventListener("click", function() {
+            const historyDiv = document.getElementById("quiz-history");
+            const btn = this;
+            
+            if (historyDiv.classList.contains("hidden")) {
+                historyDiv.classList.remove("hidden");
+                btn.textContent = 'Hide';
+                loadSavedQuizzes();
+            } else {
+                historyDiv.classList.add("hidden");
+                btn.textContent = 'Show';
+            }
+        });
+
+        function loadSavedQuizzes() {
+            fetch("/get_saved_quizzes")
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById("saved-quizzes-container");
+                
+                if (data.saved_quizzes && data.saved_quizzes.length > 0) {
+                    const totalQuizzes = data.saved_quizzes.length;
+                    const avgScore = Math.round(data.saved_quizzes.reduce((sum, quiz) => sum + quiz.percentage, 0) / totalQuizzes);
+                    
+                    let historyHTML = `
+                        <div class="stats-grid" style="margin-bottom: 12px;">
+                            <div class="stat-item">
+                                <div class="stat-value">${totalQuizzes}</div>
+                                <div class="stat-label">Total</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">${avgScore}%</div>
+                                <div class="stat-label">Average</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">${data.saved_quizzes.filter(q => q.percentage >= 80).length}</div>
+                                <div class="stat-label">Excellent</div>
+                            </div>
+                        </div>
+                        <div class="history-grid">
+                    `;
+                    
+                    data.saved_quizzes.slice(0, 6).forEach(quiz => {
+                        const percentage = Math.round(quiz.percentage);
+                        const scoreClass = percentage >= 80 ? 'excellent' : percentage >= 60 ? 'good' : 'needs-work';
+                        const date = new Date(quiz.created_at).toLocaleDateString();
+                        
+                        historyHTML += `
+                            <div class="history-item ${scoreClass}">
+                                <div class="history-score">${percentage}%</div>
+                                <div>${quiz.score}/${quiz.total_questions}</div>
+                                <div style="color: #64748b; font-size: 10px; margin-top: 2px;">${date}</div>
+                            </div>
+                        `;
+                    });
+                    
+                    historyHTML += '</div>';
+                    container.innerHTML = historyHTML;
+                } else {
+                    container.innerHTML = '<div class="alert alert-secondary">No history yet</div>';
+                }
+            })
+            .catch(error => {
+                document.getElementById("saved-quizzes-container").innerHTML = 
+                    '<div class="alert alert-danger">Error loading history</div>';
+            });
+        }
+
+        if (document.getElementById("load-last-quiz-btn")) {
+            document.getElementById("load-last-quiz-btn").addEventListener("click", loadLastQuiz);
+        }
+
+        function loadLastQuiz() {
+            if (lastQuizData.has_quiz && lastQuizData.quiz_data) {
+                quizData = lastQuizData.quiz_data.quiz;
+                renderQuiz(lastQuizData.quiz_data);
+            }
+        }
+
+        function renderQuiz(data) {
+            const quizContainer = document.getElementById("quiz-container");
+            
+            if (!data.quiz || data.quiz.length === 0) {
+                quizContainer.innerHTML = '<div class="alert alert-danger">No questions generated</div>';
+                return;
+            }
+
+            let quizHTML = '<div class="question-section"><form id="quiz-form">';
+            
+            data.quiz.forEach((q, index) => {
+                quizHTML += `
+                    <div class="question-item">
+                        <div class="question-header">
+                            <div class="question-number">${index + 1}.</div>
+                            <div class="question-text">${q.question}</div>
+                        </div>
+                        <div class="options-list">
+                            ${q.options.map((opt, i) => `
+                                <label class="option-item">
+                                    <input type="radio" name="question-${index}" value="${i}" id="q${index}_opt${i}">
+                                    <span class="option-letter">${String.fromCharCode(65 + i)})</span>
+                                    <span>${opt}</span>
+                                </label>
+                            `).join("")}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            quizHTML += '</form></div>';
+            quizContainer.innerHTML = quizHTML;
+            document.getElementById("submit-section").classList.remove("hidden");
+        }
+
+        document.getElementById("generate-btn").addEventListener("click", function() {
+            document.getElementById("loading").classList.remove("hidden");
+            document.getElementById("generate-btn").disabled = true;
+            document.getElementById("quiz-container").innerHTML = "";
+            document.getElementById("result-container").classList.add("hidden");
+            document.getElementById("submit-section").classList.add("hidden");
+
+            fetch("/generate_quiz", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ force: true })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) throw new Error(data.error);
+                if (!data.quiz || !Array.isArray(data.quiz) || data.quiz.length === 0) {
+                    throw new Error("No questions received");
+                }
+                
+                quizData = data.quiz;
+                renderQuiz(data);
+                
+                document.getElementById("loading").classList.add("hidden");
+                document.getElementById("generate-btn").disabled = false;
+                loadSavedQuizzes();
+            })
+            .catch(error => {
+                document.getElementById("loading").classList.add("hidden");
+                document.getElementById("generate-btn").disabled = false;
+                document.getElementById("quiz-container").innerHTML = 
+                    `<div class="alert alert-danger"><strong>Error:</strong> ${error.message}</div>`;
+            });
+        });
+
+        document.getElementById("submit-btn").addEventListener("click", function() {
+            const answers = [];
+            const form = document.getElementById("quiz-form");
+
+            if (!form) return;
+
+            quizData.forEach((q, index) => {
+                const selected = form.querySelector(`input[name="question-${index}"]:checked`);
+                answers.push(selected ? parseInt(selected.value) : -1);
+            });
+
+            if (answers.includes(-1)) {
+                alert("Please answer all questions");
+                return;
+            }
+
+            this.disabled = true;
+            this.textContent = 'Submitting...';
+
+            fetch("/submit_quiz", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ answers: answers })
+            })
+            .then(response => response.json())
+            .then(data => {
+                showResults(data);
+                this.disabled = false;
+                this.textContent = 'Submit Answers';
+                setTimeout(() => loadSavedQuizzes(), 1000);
+            })
+            .catch(error => {
+                alert("Submission failed");
+                this.disabled = false;
+                this.textContent = 'Submit Answers';
+            });
+        });
+
+        function showResults(data) {
+            const resultDiv = document.getElementById("result-container");
+            const percentage = Math.round((data.score / data.total) * 100);
+            
+            let scoreClass = percentage >= 80 ? 'excellent' : percentage >= 60 ? 'good' : 'needs-work';
+            let message = percentage >= 80 ? 'Excellent!' : percentage >= 60 ? 'Good Job!' : 'Keep Practicing!';
+
+            let resultsHTML = `
+                <div class="results-section">
+                    <div class="results-header">
+                        <div class="results-score ${scoreClass}">${data.score}/${data.total}</div>
+                        <div class="results-message">${message} (${percentage}%)</div>
+                    </div>
+                    <div class="answer-review">
+            `;
+
+            data.details.forEach((detail, index) => {
+                const isCorrect = detail.is_correct;
+                resultsHTML += `
+                    <div class="answer-item ${isCorrect ? 'correct' : 'incorrect'}">
+                        <div class="answer-q">Q${index + 1}: ${detail.question}</div>
+                        <div class="answer-detail"><strong>Correct:</strong> ${detail.correct}</div>
+                        <div class="answer-detail"><strong>Your Answer:</strong> ${detail.your_answer}</div>
+                    </div>
+                `;
+            });
+
+            resultsHTML += `
+                    </div>
+                    <div style="text-align: center; margin-top: 16px;">
+                        <button class="btn btn-primary" id="new-quiz-btn">Generate New Quiz</button>
+                    </div>
+                </div>
+            `;
+
+            resultDiv.innerHTML = resultsHTML;
+            resultDiv.classList.remove("hidden");
+
+            document.getElementById("quiz-container").innerHTML = "";
+            document.getElementById("submit-section").classList.add("hidden");
+
+            document.getElementById("new-quiz-btn").addEventListener("click", function() {
+                document.getElementById("generate-btn").click();
+            });
+        }
+    </script>
+</body>
+</html>
